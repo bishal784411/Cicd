@@ -484,7 +484,7 @@ def push_to_github():
 
         print("📤 Pushing to GitHub...")
         push_result = subprocess.run(
-            ["git", "push"], capture_output=True, text=True
+            ["git", "push", "-u", "origin", "main"], capture_output=True, text=True
         )
         print("Push stdout:", push_result.stdout)
         print("Push stderr:", push_result.stderr)
