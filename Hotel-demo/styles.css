@@ -1,3 +1,5 @@
+/* DO NOT FIX */
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
@@ -7,7 +9,7 @@
   --text-light: #78716c;
   --white: #fff;
   --max-width: 1200px;
-}
+
 
 * {
   padding: 0;

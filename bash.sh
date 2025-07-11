@@ -13,7 +13,7 @@ echo -e "\n✅ Starting AI analysis now!"
 
 curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
   -H 'Content-Type: application/json' \
-  -H 'X-goog-api-key: AIzaSyDMza7q2H7MFzAs8KIQC0RmsxGQoRARfRo' \
+  -H 'X-goog-api-key: AIzaSyC0Z7_WdjYjTJbpaeuVworWH8bMWcIvhTQ' \
   -X POST \
   -d '{
     "contents": [

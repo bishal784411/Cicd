@@ -357,5 +357,1854 @@
     },
     "status": "applied",
     "applied_at": "2025-07-11 12:20:46"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 12:27:00"
+  },
+  {
+    "timestamp": "2025-07-11 15:06:30",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 30: Incomplete tag (likely missing '>') -> <li><a href=\"#contact\">Contact</a></li"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Add placeholders to the input fields in the booking form to provide hints to the user.\n    *   Consider using a datepicker library for a better user experience when selecting dates.\n    *   Add validation to the form using JavaScript to ensure that the check-in date is before the check-out date and that the number of guests is within a reasonable range.\n*   **Accessibility Improvements:**\n    *   Ensure that all images have descriptive `alt` attributes.\n    *   Use ARIA attributes to enhance the accessibility of dynamic elements.\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **SEO Optimization:**\n    *   Use semantic HTML elements to improve SEO.\n    *   Add keywords to the `meta` description tag.\n    *   Ensure that the website is mobile-friendly.\n*   **JavaScript Enhancements:**\n    *   Use JavaScript to handle form submissions and display booking confirmations.\n    *   Implement client-side routing to improve the user experience.\n    *   Use a JavaScript framework like React or Vue.js to build a more complex and interactive user interface.\n*   **Backend Integration:**\n    *   Integrate the website with a backend system to store and manage hotel data, bookings, and user accounts.\n    *   Use a database to store hotel information, room availability, and booking details.\n    *   Implement an API to allow the website to communicate with the backend system.\n*   **Error Handling:** Implement robust error handling, especially for form submissions and API calls. Display user-friendly error messages.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection. Use HTTPS to encrypt all communication between the client and server.\n*   **Testing:** Write unit tests and integration tests to ensure that the website is working correctly. Use a testing framework like Jest or Mocha.\n*   **Analytics:** Integrate the website with an analytics platform like Google Analytics to track user behavior and identify areas for improvement.\n*   **Consider using a CSS preprocessor** like Sass or Less to make your CSS code more maintainable.\n*   **Lazy Loading:** Implement lazy loading for images below the fold to improve initial page load time.\n*   **Service Workers:** Implement service workers for offline functionality and improved performance.\n*   **Room Filtering:** Add functionality to filter rooms based on price, amenities, and other criteria.\n*   **User Reviews:** Implement a system for users to leave reviews and ratings for hotels and rooms.\n*   **Map Integration:** Integrate a map to show the location of the hotel and nearby attractions.\n*   **Multi-Language Support:** Add support for multiple languages to cater to a wider audience.\n*   **Payment Gateway Integration:** Integrate a payment gateway to allow users to pay for their bookings online.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:12:37"
+  },
+  {
+    "timestamp": "2025-07-11 16:44:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle the form submission asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Error Handling:** Add error handling to the form submission process to gracefully handle cases where the server returns an error. Display appropriate error messages to the user.\n*   **Accessibility Improvements:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when search results are loaded).\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Date Validation:** Implement client-side date validation to ensure that the check-out date is after the check-in date.\n*   **Consider using a framework:** Consider using a framework like React, Angular or Vue.js for more complex UI interactions and state management.\n*   **Add a loading state:** Add a loading state to the booking form while the data is being fetched.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required>"
+        },
+        {
+          "line_num": 57,
+          "content": "          </label>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required> </label>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 3,
+        "total_lines_removed": 2
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:12:37"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:12:37"
+  },
+  {
+    "timestamp": "2025-07-11 18:15:39",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user. Implement features like date pickers for the check-in and check-out dates for better usability.\n*   **Accessibility:** Ensure all interactive elements (buttons, links) have appropriate focus styles for keyboard navigation.\n*   **Error Handling:** Implement proper error handling for form submissions and display user-friendly error messages.\n*   **Semantic HTML:** Use semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Consider using the `loading=\"lazy\"` attribute for images below the fold to improve initial page load performance.\n*   **Responsive Images:** Implement responsive images using the `<picture>` element or `srcset` attribute to serve different image sizes based on the user's screen size.\n*   **CSS Optimization:** Minify and compress CSS files for faster loading.\n*   **JavaScript Optimization:** Minify and bundle JavaScript files. Consider using a module bundler like Webpack or Parcel.\n*   **SEO:** Use descriptive alt text for all images. Ensure the site is mobile-friendly and has a clear structure for search engines.\n*   **Security:** Sanitize user inputs to prevent XSS vulnerabilities. Use HTTPS to encrypt data in transit.\n*   **User Experience:** Add loading states for asynchronous operations (e.g., form submissions). Provide clear feedback to the user after they submit a booking request.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the application is working correctly.\n*   **Consider using a framework:** For more complex applications, consider using a front-end framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 12:30:41"
+  },
+  {
+    "timestamp": "2025-07-11 18:18:59",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding a \"Rooms\" field to the booking form.\n    *   Implement client-side validation using JavaScript to provide immediate feedback to the user regarding date validity (e.g., check-out date must be after check-in date) and other input constraints.\n*   **Accessibility:**\n    *   Ensure sufficient color contrast for all text and interactive elements.\n    *   Provide ARIA attributes where necessary to enhance the accessibility of dynamic content.\n*   **SEO:**\n    *   Use more descriptive alt text for images, incorporating relevant keywords.\n    *   Implement schema markup (e.g., schema.org) to provide search engines with structured data about your hotel, rooms, and services.\n*   **JavaScript:**\n    *   Consider using a JavaScript framework (e.g., React, Vue, Angular) for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the layout on various screen sizes and devices.\n*   **Security:**\n    *   Sanitize and validate all user inputs on the server-side to prevent security vulnerabilities such as cross-site scripting (XSS) and SQL injection.\n*   **Error Handling:**\n    *   Implement robust error handling for form submissions and API requests.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Minify CSS and JavaScript files.\n*   **Booking Process:**\n    *   Integrate with a backend system or API to handle booking requests, room availability, and payment processing.\n    *   Provide a clear and concise booking confirmation page.\n*   **User Experience:**\n    *   Implement a datepicker for the check-in and check-out dates to improve usability.\n    *   Consider adding a progress indicator or loading state during form submission.\n*   **Room Details:**\n    *   Add more details to the room cards, such as room size, bed type, and amenities.\n*   **Navigation:**\n    *   Ensure the navigation menu is easily accessible and intuitive.\n*   **Lazy Loading:**\n    *   Implement lazy loading for images below the fold to improve initial page load time.\n*   **Favicon:**\n    *   Add a favicon to improve branding.\n```",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 12:34:01"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 12:40:49"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 12:40:49"
+  },
+  {
+    "timestamp": "2025-07-11 18:31:49",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` API) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alternative text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Loading States:** Show loading indicators during API requests to inform the user that the system is processing their request.\n*   **Responsive Design:** Thoroughly test the layout on different screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules for better maintainability.\n*   **Consider using a datepicker library:** Enhance the date selection experience by using a datepicker library for the check-in and check-out fields.\n*   **Add room type selection:** Include a dropdown or radio buttons to allow users to select the type of room they want to book.\n*   **Implement a proper backend:** The form currently submits to \"/\". Implement a backend to handle the form submission and process the booking.",
+    "status": "applied",
+    "applied_at": "2025-07-11 12:46:49"
+  },
+  {
+    "timestamp": "2025-07-11 18:49:51",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "",
+    "status": "applied",
+    "applied_at": "2025-07-11 13:04:52"
+  },
+  {
+    "timestamp": "2025-07-11 15:06:30",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 30: Incomplete tag (likely missing '>') -> <li><a href=\"#contact\">Contact</a></li"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Add placeholders to the input fields in the booking form to provide hints to the user.\n    *   Consider using a datepicker library for a better user experience when selecting dates.\n    *   Add validation to the form using JavaScript to ensure that the check-in date is before the check-out date and that the number of guests is within a reasonable range.\n*   **Accessibility Improvements:**\n    *   Ensure that all images have descriptive `alt` attributes.\n    *   Use ARIA attributes to enhance the accessibility of dynamic elements.\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **SEO Optimization:**\n    *   Use semantic HTML elements to improve SEO.\n    *   Add keywords to the `meta` description tag.\n    *   Ensure that the website is mobile-friendly.\n*   **JavaScript Enhancements:**\n    *   Use JavaScript to handle form submissions and display booking confirmations.\n    *   Implement client-side routing to improve the user experience.\n    *   Use a JavaScript framework like React or Vue.js to build a more complex and interactive user interface.\n*   **Backend Integration:**\n    *   Integrate the website with a backend system to store and manage hotel data, bookings, and user accounts.\n    *   Use a database to store hotel information, room availability, and booking details.\n    *   Implement an API to allow the website to communicate with the backend system.\n*   **Error Handling:** Implement robust error handling, especially for form submissions and API calls. Display user-friendly error messages.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection. Use HTTPS to encrypt all communication between the client and server.\n*   **Testing:** Write unit tests and integration tests to ensure that the website is working correctly. Use a testing framework like Jest or Mocha.\n*   **Analytics:** Integrate the website with an analytics platform like Google Analytics to track user behavior and identify areas for improvement.\n*   **Consider using a CSS preprocessor** like Sass or Less to make your CSS code more maintainable.\n*   **Lazy Loading:** Implement lazy loading for images below the fold to improve initial page load time.\n*   **Service Workers:** Implement service workers for offline functionality and improved performance.\n*   **Room Filtering:** Add functionality to filter rooms based on price, amenities, and other criteria.\n*   **User Reviews:** Implement a system for users to leave reviews and ratings for hotels and rooms.\n*   **Map Integration:** Integrate a map to show the location of the hotel and nearby attractions.\n*   **Multi-Language Support:** Add support for multiple languages to cater to a wider audience.\n*   **Payment Gateway Integration:** Integrate a payment gateway to allow users to pay for their bookings online.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 16:44:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle the form submission asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Error Handling:** Add error handling to the form submission process to gracefully handle cases where the server returns an error. Display appropriate error messages to the user.\n*   **Accessibility Improvements:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when search results are loaded).\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Date Validation:** Implement client-side date validation to ensure that the check-out date is after the check-in date.\n*   **Consider using a framework:** Consider using a framework like React, Angular or Vue.js for more complex UI interactions and state management.\n*   **Add a loading state:** Add a loading state to the booking form while the data is being fetched.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required>"
+        },
+        {
+          "line_num": 57,
+          "content": "          </label>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required> </label>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 3,
+        "total_lines_removed": 2
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:15:39",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user. Implement features like date pickers for the check-in and check-out dates for better usability.\n*   **Accessibility:** Ensure all interactive elements (buttons, links) have appropriate focus styles for keyboard navigation.\n*   **Error Handling:** Implement proper error handling for form submissions and display user-friendly error messages.\n*   **Semantic HTML:** Use semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Consider using the `loading=\"lazy\"` attribute for images below the fold to improve initial page load performance.\n*   **Responsive Images:** Implement responsive images using the `<picture>` element or `srcset` attribute to serve different image sizes based on the user's screen size.\n*   **CSS Optimization:** Minify and compress CSS files for faster loading.\n*   **JavaScript Optimization:** Minify and bundle JavaScript files. Consider using a module bundler like Webpack or Parcel.\n*   **SEO:** Use descriptive alt text for all images. Ensure the site is mobile-friendly and has a clear structure for search engines.\n*   **Security:** Sanitize user inputs to prevent XSS vulnerabilities. Use HTTPS to encrypt data in transit.\n*   **User Experience:** Add loading states for asynchronous operations (e.g., form submissions). Provide clear feedback to the user after they submit a booking request.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the application is working correctly.\n*   **Consider using a framework:** For more complex applications, consider using a front-end framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:18:59",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding a \"Rooms\" field to the booking form.\n    *   Implement client-side validation using JavaScript to provide immediate feedback to the user regarding date validity (e.g., check-out date must be after check-in date) and other input constraints.\n*   **Accessibility:**\n    *   Ensure sufficient color contrast for all text and interactive elements.\n    *   Provide ARIA attributes where necessary to enhance the accessibility of dynamic content.\n*   **SEO:**\n    *   Use more descriptive alt text for images, incorporating relevant keywords.\n    *   Implement schema markup (e.g., schema.org) to provide search engines with structured data about your hotel, rooms, and services.\n*   **JavaScript:**\n    *   Consider using a JavaScript framework (e.g., React, Vue, Angular) for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the layout on various screen sizes and devices.\n*   **Security:**\n    *   Sanitize and validate all user inputs on the server-side to prevent security vulnerabilities such as cross-site scripting (XSS) and SQL injection.\n*   **Error Handling:**\n    *   Implement robust error handling for form submissions and API requests.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Minify CSS and JavaScript files.\n*   **Booking Process:**\n    *   Integrate with a backend system or API to handle booking requests, room availability, and payment processing.\n    *   Provide a clear and concise booking confirmation page.\n*   **User Experience:**\n    *   Implement a datepicker for the check-in and check-out dates to improve usability.\n    *   Consider adding a progress indicator or loading state during form submission.\n*   **Room Details:**\n    *   Add more details to the room cards, such as room size, bed type, and amenities.\n*   **Navigation:**\n    *   Ensure the navigation menu is easily accessible and intuitive.\n*   **Lazy Loading:**\n    *   Implement lazy loading for images below the fold to improve initial page load time.\n*   **Favicon:**\n    *   Add a favicon to improve branding.\n```",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:31:49",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` API) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alternative text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Loading States:** Show loading indicators during API requests to inform the user that the system is processing their request.\n*   **Responsive Design:** Thoroughly test the layout on different screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules for better maintainability.\n*   **Consider using a datepicker library:** Enhance the date selection experience by using a datepicker library for the check-in and check-out fields.\n*   **Add room type selection:** Include a dropdown or radio buttons to allow users to select the type of room they want to book.\n*   **Implement a proper backend:** The form currently submits to \"/\". Implement a backend to handle the form submission and process the booking.",
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:49:51",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "",
+    "status": "applied",
+    "applied_at": "2025-07-11 18:50:13"
+  },
+  {
+    "timestamp": "2025-07-11 18:51:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   Consider using a more robust datepicker library for the booking form to enhance user experience and handle date validation more effectively.\n*   Implement server-side validation and sanitization for the booking form data to prevent security vulnerabilities.\n*   Add error handling and informative messages for form submissions.\n*   Implement a proper routing mechanism instead of relying solely on anchor links (`#`) for navigation.\n*   For the room cards, consider using a more semantic element than `div` for the icons container, such as a `ul` with `li` elements.\n*   Add more detailed descriptions and amenities information for each room type.\n*   Implement a proper image optimization strategy (e.g., using responsive images with the `<picture>` element or `srcset` attribute) to improve page load times.\n*   Consider using a CSS preprocessor like Sass or Less to improve code maintainability and organization.\n*   Add unit tests for your JavaScript code to ensure its reliability.\n*   Use a consistent code style and formatting throughout the project.\n*   Consider using a framework like React, Angular, or Vue.js for more complex UI interactions and state management.\n*   Implement accessibility best practices throughout the site, including proper ARIA attributes, keyboard navigation, and color contrast.\n*   Add a loading state or spinner for images and other resources that may take time to load.\n*   Consider adding a sitemap to improve SEO.\n*   Implement analytics tracking to monitor user behavior and identify areas for improvement.\n*   Use a service worker to enable offline access and improve performance.\n*   Consider adding a cookie consent banner to comply with privacy regulations.\n*   Implement a content security policy (CSP) to protect against cross-site scripting (XSS) attacks.\n*   Use HTTPS to encrypt all communication between the client and server.\n*   Regularly update dependencies to patch security vulnerabilities.",
+    "status": "applied",
+    "applied_at": "2025-07-11 13:06:48"
+  },
+  {
+    "timestamp": "2025-07-11 18:55:56",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`). This allows you to update the UI dynamically without full page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alt text for images.\n    *   Ensure sufficient color contrast for text.\n    *   Consider using ARIA attributes to enhance the accessibility of custom components.\n*   **Error Handling:** Implement error handling for form submissions and API requests to provide informative feedback to the user.\n*   **Loading States:** Show loading indicators while data is being fetched or processed.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Vue, or Angular.",
+    "status": "applied",
+    "applied_at": "2025-07-11 13:10:58"
+  },
+  {
+    "timestamp": "2025-07-11 15:06:30",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 30: Incomplete tag (likely missing '>') -> <li><a href=\"#contact\">Contact</a></li"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Add placeholders to the input fields in the booking form to provide hints to the user.\n    *   Consider using a datepicker library for a better user experience when selecting dates.\n    *   Add validation to the form using JavaScript to ensure that the check-in date is before the check-out date and that the number of guests is within a reasonable range.\n*   **Accessibility Improvements:**\n    *   Ensure that all images have descriptive `alt` attributes.\n    *   Use ARIA attributes to enhance the accessibility of dynamic elements.\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **SEO Optimization:**\n    *   Use semantic HTML elements to improve SEO.\n    *   Add keywords to the `meta` description tag.\n    *   Ensure that the website is mobile-friendly.\n*   **JavaScript Enhancements:**\n    *   Use JavaScript to handle form submissions and display booking confirmations.\n    *   Implement client-side routing to improve the user experience.\n    *   Use a JavaScript framework like React or Vue.js to build a more complex and interactive user interface.\n*   **Backend Integration:**\n    *   Integrate the website with a backend system to store and manage hotel data, bookings, and user accounts.\n    *   Use a database to store hotel information, room availability, and booking details.\n    *   Implement an API to allow the website to communicate with the backend system.\n*   **Error Handling:** Implement robust error handling, especially for form submissions and API calls. Display user-friendly error messages.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection. Use HTTPS to encrypt all communication between the client and server.\n*   **Testing:** Write unit tests and integration tests to ensure that the website is working correctly. Use a testing framework like Jest or Mocha.\n*   **Analytics:** Integrate the website with an analytics platform like Google Analytics to track user behavior and identify areas for improvement.\n*   **Consider using a CSS preprocessor** like Sass or Less to make your CSS code more maintainable.\n*   **Lazy Loading:** Implement lazy loading for images below the fold to improve initial page load time.\n*   **Service Workers:** Implement service workers for offline functionality and improved performance.\n*   **Room Filtering:** Add functionality to filter rooms based on price, amenities, and other criteria.\n*   **User Reviews:** Implement a system for users to leave reviews and ratings for hotels and rooms.\n*   **Map Integration:** Integrate a map to show the location of the hotel and nearby attractions.\n*   **Multi-Language Support:** Add support for multiple languages to cater to a wider audience.\n*   **Payment Gateway Integration:** Integrate a payment gateway to allow users to pay for their bookings online.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 16:44:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle the form submission asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Error Handling:** Add error handling to the form submission process to gracefully handle cases where the server returns an error. Display appropriate error messages to the user.\n*   **Accessibility Improvements:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when search results are loaded).\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Date Validation:** Implement client-side date validation to ensure that the check-out date is after the check-in date.\n*   **Consider using a framework:** Consider using a framework like React, Angular or Vue.js for more complex UI interactions and state management.\n*   **Add a loading state:** Add a loading state to the booking form while the data is being fetched.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required>"
+        },
+        {
+          "line_num": 57,
+          "content": "          </label>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required> </label>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 3,
+        "total_lines_removed": 2
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:15:39",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user. Implement features like date pickers for the check-in and check-out dates for better usability.\n*   **Accessibility:** Ensure all interactive elements (buttons, links) have appropriate focus styles for keyboard navigation.\n*   **Error Handling:** Implement proper error handling for form submissions and display user-friendly error messages.\n*   **Semantic HTML:** Use semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Consider using the `loading=\"lazy\"` attribute for images below the fold to improve initial page load performance.\n*   **Responsive Images:** Implement responsive images using the `<picture>` element or `srcset` attribute to serve different image sizes based on the user's screen size.\n*   **CSS Optimization:** Minify and compress CSS files for faster loading.\n*   **JavaScript Optimization:** Minify and bundle JavaScript files. Consider using a module bundler like Webpack or Parcel.\n*   **SEO:** Use descriptive alt text for all images. Ensure the site is mobile-friendly and has a clear structure for search engines.\n*   **Security:** Sanitize user inputs to prevent XSS vulnerabilities. Use HTTPS to encrypt data in transit.\n*   **User Experience:** Add loading states for asynchronous operations (e.g., form submissions). Provide clear feedback to the user after they submit a booking request.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the application is working correctly.\n*   **Consider using a framework:** For more complex applications, consider using a front-end framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:18:59",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding a \"Rooms\" field to the booking form.\n    *   Implement client-side validation using JavaScript to provide immediate feedback to the user regarding date validity (e.g., check-out date must be after check-in date) and other input constraints.\n*   **Accessibility:**\n    *   Ensure sufficient color contrast for all text and interactive elements.\n    *   Provide ARIA attributes where necessary to enhance the accessibility of dynamic content.\n*   **SEO:**\n    *   Use more descriptive alt text for images, incorporating relevant keywords.\n    *   Implement schema markup (e.g., schema.org) to provide search engines with structured data about your hotel, rooms, and services.\n*   **JavaScript:**\n    *   Consider using a JavaScript framework (e.g., React, Vue, Angular) for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the layout on various screen sizes and devices.\n*   **Security:**\n    *   Sanitize and validate all user inputs on the server-side to prevent security vulnerabilities such as cross-site scripting (XSS) and SQL injection.\n*   **Error Handling:**\n    *   Implement robust error handling for form submissions and API requests.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Minify CSS and JavaScript files.\n*   **Booking Process:**\n    *   Integrate with a backend system or API to handle booking requests, room availability, and payment processing.\n    *   Provide a clear and concise booking confirmation page.\n*   **User Experience:**\n    *   Implement a datepicker for the check-in and check-out dates to improve usability.\n    *   Consider adding a progress indicator or loading state during form submission.\n*   **Room Details:**\n    *   Add more details to the room cards, such as room size, bed type, and amenities.\n*   **Navigation:**\n    *   Ensure the navigation menu is easily accessible and intuitive.\n*   **Lazy Loading:**\n    *   Implement lazy loading for images below the fold to improve initial page load time.\n*   **Favicon:**\n    *   Add a favicon to improve branding.\n```",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:31:49",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` API) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alternative text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Loading States:** Show loading indicators during API requests to inform the user that the system is processing their request.\n*   **Responsive Design:** Thoroughly test the layout on different screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules for better maintainability.\n*   **Consider using a datepicker library:** Enhance the date selection experience by using a datepicker library for the check-in and check-out fields.\n*   **Add room type selection:** Include a dropdown or radio buttons to allow users to select the type of room they want to book.\n*   **Implement a proper backend:** The form currently submits to \"/\". Implement a backend to handle the form submission and process the booking.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:49:51",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:51:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   Consider using a more robust datepicker library for the booking form to enhance user experience and handle date validation more effectively.\n*   Implement server-side validation and sanitization for the booking form data to prevent security vulnerabilities.\n*   Add error handling and informative messages for form submissions.\n*   Implement a proper routing mechanism instead of relying solely on anchor links (`#`) for navigation.\n*   For the room cards, consider using a more semantic element than `div` for the icons container, such as a `ul` with `li` elements.\n*   Add more detailed descriptions and amenities information for each room type.\n*   Implement a proper image optimization strategy (e.g., using responsive images with the `<picture>` element or `srcset` attribute) to improve page load times.\n*   Consider using a CSS preprocessor like Sass or Less to improve code maintainability and organization.\n*   Add unit tests for your JavaScript code to ensure its reliability.\n*   Use a consistent code style and formatting throughout the project.\n*   Consider using a framework like React, Angular, or Vue.js for more complex UI interactions and state management.\n*   Implement accessibility best practices throughout the site, including proper ARIA attributes, keyboard navigation, and color contrast.\n*   Add a loading state or spinner for images and other resources that may take time to load.\n*   Consider adding a sitemap to improve SEO.\n*   Implement analytics tracking to monitor user behavior and identify areas for improvement.\n*   Use a service worker to enable offline access and improve performance.\n*   Consider adding a cookie consent banner to comply with privacy regulations.\n*   Implement a content security policy (CSP) to protect against cross-site scripting (XSS) attacks.\n*   Use HTTPS to encrypt all communication between the client and server.\n*   Regularly update dependencies to patch security vulnerabilities.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 18:55:56",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`). This allows you to update the UI dynamically without full page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alt text for images.\n    *   Ensure sufficient color contrast for text.\n    *   Consider using ARIA attributes to enhance the accessibility of custom components.\n*   **Error Handling:** Implement error handling for form submissions and API requests to provide informative feedback to the user.\n*   **Loading States:** Show loading indicators while data is being fetched or processed.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Vue, or Angular.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 22:36:07",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding more specific input types to the booking form (e.g., `type=\"email\"` for email, `type=\"tel\"` for phone number). Implement client-side validation using JavaScript to provide immediate feedback to the user.\n*   **Accessibility:** Ensure sufficient color contrast for text and interactive elements. Use ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Responsiveness:** Test the layout on various screen sizes and devices to ensure a consistent user experience.\n*   **Security:** Sanitize user inputs to prevent cross-site scripting (XSS) attacks. Use HTTPS to encrypt data transmitted between the client and server.\n*   **Performance:** Optimize images and other assets to reduce page load time. Consider using a content delivery network (CDN) to serve static assets.\n*   **SEO:** Use descriptive alt text for images. Provide a sitemap to help search engines crawl the website.\n*   **Booking Process:** Implement a multi-step booking process with clear progress indicators.\n*   **Room Selection:** Allow users to select specific room types or amenities during the booking process.\n*   **Payment Integration:** Integrate with a secure payment gateway to process online payments.\n*   **Confirmation:** Send booking confirmation emails to users.\n*   **User Accounts:** Implement user accounts to allow users to manage their bookings and preferences.\n*   **API Integration:** Use APIs to fetch hotel data, room availability, and pricing information.\n*   **Testing:** Perform thorough testing to ensure the functionality and usability of the booking system.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Angular, or Vue.js to manage the user interface and data flow.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 1,
+          "content": "<!-- DO NOT FIX -->"
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:36:29"
+  },
+  {
+    "timestamp": "2025-07-11 15:06:30",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 30: Incomplete tag (likely missing '>') -> <li><a href=\"#contact\">Contact</a></li"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Add placeholders to the input fields in the booking form to provide hints to the user.\n    *   Consider using a datepicker library for a better user experience when selecting dates.\n    *   Add validation to the form using JavaScript to ensure that the check-in date is before the check-out date and that the number of guests is within a reasonable range.\n*   **Accessibility Improvements:**\n    *   Ensure that all images have descriptive `alt` attributes.\n    *   Use ARIA attributes to enhance the accessibility of dynamic elements.\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **SEO Optimization:**\n    *   Use semantic HTML elements to improve SEO.\n    *   Add keywords to the `meta` description tag.\n    *   Ensure that the website is mobile-friendly.\n*   **JavaScript Enhancements:**\n    *   Use JavaScript to handle form submissions and display booking confirmations.\n    *   Implement client-side routing to improve the user experience.\n    *   Use a JavaScript framework like React or Vue.js to build a more complex and interactive user interface.\n*   **Backend Integration:**\n    *   Integrate the website with a backend system to store and manage hotel data, bookings, and user accounts.\n    *   Use a database to store hotel information, room availability, and booking details.\n    *   Implement an API to allow the website to communicate with the backend system.\n*   **Error Handling:** Implement robust error handling, especially for form submissions and API calls. Display user-friendly error messages.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection. Use HTTPS to encrypt all communication between the client and server.\n*   **Testing:** Write unit tests and integration tests to ensure that the website is working correctly. Use a testing framework like Jest or Mocha.\n*   **Analytics:** Integrate the website with an analytics platform like Google Analytics to track user behavior and identify areas for improvement.\n*   **Consider using a CSS preprocessor** like Sass or Less to make your CSS code more maintainable.\n*   **Lazy Loading:** Implement lazy loading for images below the fold to improve initial page load time.\n*   **Service Workers:** Implement service workers for offline functionality and improved performance.\n*   **Room Filtering:** Add functionality to filter rooms based on price, amenities, and other criteria.\n*   **User Reviews:** Implement a system for users to leave reviews and ratings for hotels and rooms.\n*   **Map Integration:** Integrate a map to show the location of the hotel and nearby attractions.\n*   **Multi-Language Support:** Add support for multiple languages to cater to a wider audience.\n*   **Payment Gateway Integration:** Integrate a payment gateway to allow users to pay for their bookings online.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 16:44:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle the form submission asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Error Handling:** Add error handling to the form submission process to gracefully handle cases where the server returns an error. Display appropriate error messages to the user.\n*   **Accessibility Improvements:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when search results are loaded).\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Date Validation:** Implement client-side date validation to ensure that the check-out date is after the check-in date.\n*   **Consider using a framework:** Consider using a framework like React, Angular or Vue.js for more complex UI interactions and state management.\n*   **Add a loading state:** Add a loading state to the booking form while the data is being fetched.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required>"
+        },
+        {
+          "line_num": 57,
+          "content": "          </label>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required> </label>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 3,
+        "total_lines_removed": 2
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:15:39",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user. Implement features like date pickers for the check-in and check-out dates for better usability.\n*   **Accessibility:** Ensure all interactive elements (buttons, links) have appropriate focus styles for keyboard navigation.\n*   **Error Handling:** Implement proper error handling for form submissions and display user-friendly error messages.\n*   **Semantic HTML:** Use semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Consider using the `loading=\"lazy\"` attribute for images below the fold to improve initial page load performance.\n*   **Responsive Images:** Implement responsive images using the `<picture>` element or `srcset` attribute to serve different image sizes based on the user's screen size.\n*   **CSS Optimization:** Minify and compress CSS files for faster loading.\n*   **JavaScript Optimization:** Minify and bundle JavaScript files. Consider using a module bundler like Webpack or Parcel.\n*   **SEO:** Use descriptive alt text for all images. Ensure the site is mobile-friendly and has a clear structure for search engines.\n*   **Security:** Sanitize user inputs to prevent XSS vulnerabilities. Use HTTPS to encrypt data in transit.\n*   **User Experience:** Add loading states for asynchronous operations (e.g., form submissions). Provide clear feedback to the user after they submit a booking request.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the application is working correctly.\n*   **Consider using a framework:** For more complex applications, consider using a front-end framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:18:59",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding a \"Rooms\" field to the booking form.\n    *   Implement client-side validation using JavaScript to provide immediate feedback to the user regarding date validity (e.g., check-out date must be after check-in date) and other input constraints.\n*   **Accessibility:**\n    *   Ensure sufficient color contrast for all text and interactive elements.\n    *   Provide ARIA attributes where necessary to enhance the accessibility of dynamic content.\n*   **SEO:**\n    *   Use more descriptive alt text for images, incorporating relevant keywords.\n    *   Implement schema markup (e.g., schema.org) to provide search engines with structured data about your hotel, rooms, and services.\n*   **JavaScript:**\n    *   Consider using a JavaScript framework (e.g., React, Vue, Angular) for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the layout on various screen sizes and devices.\n*   **Security:**\n    *   Sanitize and validate all user inputs on the server-side to prevent security vulnerabilities such as cross-site scripting (XSS) and SQL injection.\n*   **Error Handling:**\n    *   Implement robust error handling for form submissions and API requests.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Minify CSS and JavaScript files.\n*   **Booking Process:**\n    *   Integrate with a backend system or API to handle booking requests, room availability, and payment processing.\n    *   Provide a clear and concise booking confirmation page.\n*   **User Experience:**\n    *   Implement a datepicker for the check-in and check-out dates to improve usability.\n    *   Consider adding a progress indicator or loading state during form submission.\n*   **Room Details:**\n    *   Add more details to the room cards, such as room size, bed type, and amenities.\n*   **Navigation:**\n    *   Ensure the navigation menu is easily accessible and intuitive.\n*   **Lazy Loading:**\n    *   Implement lazy loading for images below the fold to improve initial page load time.\n*   **Favicon:**\n    *   Add a favicon to improve branding.\n```",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:31:49",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` API) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alternative text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Loading States:** Show loading indicators during API requests to inform the user that the system is processing their request.\n*   **Responsive Design:** Thoroughly test the layout on different screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules for better maintainability.\n*   **Consider using a datepicker library:** Enhance the date selection experience by using a datepicker library for the check-in and check-out fields.\n*   **Add room type selection:** Include a dropdown or radio buttons to allow users to select the type of room they want to book.\n*   **Implement a proper backend:** The form currently submits to \"/\". Implement a backend to handle the form submission and process the booking.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:49:51",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:51:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   Consider using a more robust datepicker library for the booking form to enhance user experience and handle date validation more effectively.\n*   Implement server-side validation and sanitization for the booking form data to prevent security vulnerabilities.\n*   Add error handling and informative messages for form submissions.\n*   Implement a proper routing mechanism instead of relying solely on anchor links (`#`) for navigation.\n*   For the room cards, consider using a more semantic element than `div` for the icons container, such as a `ul` with `li` elements.\n*   Add more detailed descriptions and amenities information for each room type.\n*   Implement a proper image optimization strategy (e.g., using responsive images with the `<picture>` element or `srcset` attribute) to improve page load times.\n*   Consider using a CSS preprocessor like Sass or Less to improve code maintainability and organization.\n*   Add unit tests for your JavaScript code to ensure its reliability.\n*   Use a consistent code style and formatting throughout the project.\n*   Consider using a framework like React, Angular, or Vue.js for more complex UI interactions and state management.\n*   Implement accessibility best practices throughout the site, including proper ARIA attributes, keyboard navigation, and color contrast.\n*   Add a loading state or spinner for images and other resources that may take time to load.\n*   Consider adding a sitemap to improve SEO.\n*   Implement analytics tracking to monitor user behavior and identify areas for improvement.\n*   Use a service worker to enable offline access and improve performance.\n*   Consider adding a cookie consent banner to comply with privacy regulations.\n*   Implement a content security policy (CSP) to protect against cross-site scripting (XSS) attacks.\n*   Use HTTPS to encrypt all communication between the client and server.\n*   Regularly update dependencies to patch security vulnerabilities.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 18:55:56",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`). This allows you to update the UI dynamically without full page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alt text for images.\n    *   Ensure sufficient color contrast for text.\n    *   Consider using ARIA attributes to enhance the accessibility of custom components.\n*   **Error Handling:** Implement error handling for form submissions and API requests to provide informative feedback to the user.\n*   **Loading States:** Show loading indicators while data is being fetched or processed.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Vue, or Angular.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 22:36:07",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding more specific input types to the booking form (e.g., `type=\"email\"` for email, `type=\"tel\"` for phone number). Implement client-side validation using JavaScript to provide immediate feedback to the user.\n*   **Accessibility:** Ensure sufficient color contrast for text and interactive elements. Use ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Responsiveness:** Test the layout on various screen sizes and devices to ensure a consistent user experience.\n*   **Security:** Sanitize user inputs to prevent cross-site scripting (XSS) attacks. Use HTTPS to encrypt data transmitted between the client and server.\n*   **Performance:** Optimize images and other assets to reduce page load time. Consider using a content delivery network (CDN) to serve static assets.\n*   **SEO:** Use descriptive alt text for images. Provide a sitemap to help search engines crawl the website.\n*   **Booking Process:** Implement a multi-step booking process with clear progress indicators.\n*   **Room Selection:** Allow users to select specific room types or amenities during the booking process.\n*   **Payment Integration:** Integrate with a secure payment gateway to process online payments.\n*   **Confirmation:** Send booking confirmation emails to users.\n*   **User Accounts:** Implement user accounts to allow users to manage their bookings and preferences.\n*   **API Integration:** Use APIs to fetch hotel data, room availability, and pricing information.\n*   **Testing:** Perform thorough testing to ensure the functionality and usability of the booking system.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Angular, or Vue.js to manage the user interface and data flow.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 1,
+          "content": "<!-- DO NOT FIX -->"
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 22:43:56",
+    "file": "Hotel-demo/index.html",
+    "backup_path": "backups/index_20250711_224356.html",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Validation:** Implement client-side form validation using JavaScript to provide immediate feedback to users and prevent invalid data from being submitted.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages to guide users in resolving issues.\n*   **Accessibility Improvements:** Ensure all interactive elements are accessible via keyboard and screen readers. Use ARIA attributes to provide additional context where necessary.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using lazy loading for images that are not immediately visible.\n*   **Mobile Responsiveness:** Test the website on various mobile devices and screen sizes to ensure a consistent and user-friendly experience.\n*   **Security:** Implement security best practices to protect user data and prevent common web vulnerabilities.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 21,
+          "content": "        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\">"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 21,
+          "content": "        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "auto_apply": false,
+    "requires_manual_review": true,
+    "applied_at": "2025-07-11 22:44:20"
+  },
+  {
+    "timestamp": "2025-07-11 15:06:30",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 30: Incomplete tag (likely missing '>') -> <li><a href=\"#contact\">Contact</a></li"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Add placeholders to the input fields in the booking form to provide hints to the user.\n    *   Consider using a datepicker library for a better user experience when selecting dates.\n    *   Add validation to the form using JavaScript to ensure that the check-in date is before the check-out date and that the number of guests is within a reasonable range.\n*   **Accessibility Improvements:**\n    *   Ensure that all images have descriptive `alt` attributes.\n    *   Use ARIA attributes to enhance the accessibility of dynamic elements.\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **SEO Optimization:**\n    *   Use semantic HTML elements to improve SEO.\n    *   Add keywords to the `meta` description tag.\n    *   Ensure that the website is mobile-friendly.\n*   **JavaScript Enhancements:**\n    *   Use JavaScript to handle form submissions and display booking confirmations.\n    *   Implement client-side routing to improve the user experience.\n    *   Use a JavaScript framework like React or Vue.js to build a more complex and interactive user interface.\n*   **Backend Integration:**\n    *   Integrate the website with a backend system to store and manage hotel data, bookings, and user accounts.\n    *   Use a database to store hotel information, room availability, and booking details.\n    *   Implement an API to allow the website to communicate with the backend system.\n*   **Error Handling:** Implement robust error handling, especially for form submissions and API calls. Display user-friendly error messages.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection. Use HTTPS to encrypt all communication between the client and server.\n*   **Testing:** Write unit tests and integration tests to ensure that the website is working correctly. Use a testing framework like Jest or Mocha.\n*   **Analytics:** Integrate the website with an analytics platform like Google Analytics to track user behavior and identify areas for improvement.\n*   **Consider using a CSS preprocessor** like Sass or Less to make your CSS code more maintainable.\n*   **Lazy Loading:** Implement lazy loading for images below the fold to improve initial page load time.\n*   **Service Workers:** Implement service workers for offline functionality and improved performance.\n*   **Room Filtering:** Add functionality to filter rooms based on price, amenities, and other criteria.\n*   **User Reviews:** Implement a system for users to leave reviews and ratings for hotels and rooms.\n*   **Map Integration:** Integrate a map to show the location of the hotel and nearby attractions.\n*   **Multi-Language Support:** Add support for multiple languages to cater to a wider audience.\n*   **Payment Gateway Integration:** Integrate a payment gateway to allow users to pay for their bookings online.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 30,
+          "content": "          <li><a href=\"#contact\">Contact</a></li"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 16:44:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle the form submission asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Error Handling:** Add error handling to the form submission process to gracefully handle cases where the server returns an error. Display appropriate error messages to the user.\n*   **Accessibility Improvements:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when search results are loaded).\n    *   Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Date Validation:** Implement client-side date validation to ensure that the check-out date is after the check-in date.\n*   **Consider using a framework:** Consider using a framework like React, Angular or Vue.js for more complex UI interactions and state management.\n*   **Add a loading state:** Add a loading state to the booking form while the data is being fetched.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required>"
+        },
+        {
+          "line_num": 57,
+          "content": "          </label>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        },
+        {
+          "line_num": 56,
+          "content": "            <input type=\"date\" id=\"check-out\" name=\"check-out\" aria-label=\"Check Out Date\" required> </label>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 3,
+        "total_lines_removed": 2
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:12:00",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user.\n    *   Implement a datepicker library for the check-in and check-out dates to improve usability.\n    *   Add a select dropdown for the number of guests with predefined options instead of a number input, if appropriate.\n*   **Accessibility:**\n    *   Ensure proper ARIA attributes are used for dynamic content updates (e.g., when the menu is toggled).\n    *   Test the website with screen readers to ensure all content is accessible.\n*   **SEO:**\n    *   Use more specific and relevant keywords in the meta description.\n    *   Implement schema markup for hotels to improve search engine visibility.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Consider lazy loading images below the fold.\n*   **Booking Functionality:**\n    *   Implement server-side validation and error handling for the booking form.\n    *   Integrate with a payment gateway to process bookings.\n    *   Add functionality to display available rooms based on the selected dates and number of guests.\n*   **Code Structure:**\n    *   Consider using a CSS preprocessor like Sass or Less to improve code organization and maintainability.\n    *   Use a JavaScript framework like React, Angular, or Vue.js for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the website on different devices and screen sizes to ensure it is fully responsive.\n*   **User Experience:**\n    *   Add a loading indicator for asynchronous operations (e.g., form submission).\n    *   Provide clear and concise error messages to the user.\n*   **Security:**\n    *   Sanitize user inputs to prevent cross-site scripting (XSS) attacks.\n    *   Use HTTPS to encrypt data transmitted between the client and server.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 161,
+          "content": "              <span><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 161,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-shield-star-line\"></i></span>"
+        },
+        {
+          "line_num": 165,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-24-hours-line\"></i></span>"
+        },
+        {
+          "line_num": 169,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-headphone-line\"></i></span>"
+        },
+        {
+          "line_num": 173,
+          "content": "              <span aria-hidden=\"true\"><i class=\"ri-map-2-line\"></i></span>"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 5,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:15:39",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding client-side validation to the booking form using JavaScript to provide immediate feedback to the user. Implement features like date pickers for the check-in and check-out dates for better usability.\n*   **Accessibility:** Ensure all interactive elements (buttons, links) have appropriate focus styles for keyboard navigation.\n*   **Error Handling:** Implement proper error handling for form submissions and display user-friendly error messages.\n*   **Semantic HTML:** Use semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Consider using the `loading=\"lazy\"` attribute for images below the fold to improve initial page load performance.\n*   **Responsive Images:** Implement responsive images using the `<picture>` element or `srcset` attribute to serve different image sizes based on the user's screen size.\n*   **CSS Optimization:** Minify and compress CSS files for faster loading.\n*   **JavaScript Optimization:** Minify and bundle JavaScript files. Consider using a module bundler like Webpack or Parcel.\n*   **SEO:** Use descriptive alt text for all images. Ensure the site is mobile-friendly and has a clear structure for search engines.\n*   **Security:** Sanitize user inputs to prevent XSS vulnerabilities. Use HTTPS to encrypt data in transit.\n*   **User Experience:** Add loading states for asynchronous operations (e.g., form submissions). Provide clear feedback to the user after they submit a booking request.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the application is working correctly.\n*   **Consider using a framework:** For more complex applications, consider using a front-end framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:18:59",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:**\n    *   Consider adding a \"Rooms\" field to the booking form.\n    *   Implement client-side validation using JavaScript to provide immediate feedback to the user regarding date validity (e.g., check-out date must be after check-in date) and other input constraints.\n*   **Accessibility:**\n    *   Ensure sufficient color contrast for all text and interactive elements.\n    *   Provide ARIA attributes where necessary to enhance the accessibility of dynamic content.\n*   **SEO:**\n    *   Use more descriptive alt text for images, incorporating relevant keywords.\n    *   Implement schema markup (e.g., schema.org) to provide search engines with structured data about your hotel, rooms, and services.\n*   **JavaScript:**\n    *   Consider using a JavaScript framework (e.g., React, Vue, Angular) for more complex interactions and data management.\n*   **Responsiveness:**\n    *   Thoroughly test the layout on various screen sizes and devices.\n*   **Security:**\n    *   Sanitize and validate all user inputs on the server-side to prevent security vulnerabilities such as cross-site scripting (XSS) and SQL injection.\n*   **Error Handling:**\n    *   Implement robust error handling for form submissions and API requests.\n*   **Performance:**\n    *   Optimize images for web use to reduce page load times.\n    *   Minify CSS and JavaScript files.\n*   **Booking Process:**\n    *   Integrate with a backend system or API to handle booking requests, room availability, and payment processing.\n    *   Provide a clear and concise booking confirmation page.\n*   **User Experience:**\n    *   Implement a datepicker for the check-in and check-out dates to improve usability.\n    *   Consider adding a progress indicator or loading state during form submission.\n*   **Room Details:**\n    *   Add more details to the room cards, such as room size, bed type, and amenities.\n*   **Navigation:**\n    *   Ensure the navigation menu is easily accessible and intuitive.\n*   **Lazy Loading:**\n    *   Implement lazy loading for images below the fold to improve initial page load time.\n*   **Favicon:**\n    *   Add a favicon to improve branding.\n```",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        },
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 12,
+          "content": ""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 2,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:25:48",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive `alt` text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Loading States:** Provide visual feedback (e.g., a loading spinner) while data is being fetched or processed.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes and devices.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules.\n*   **Consider a framework:** For a more complex application, consider using a framework like React, Vue, or Angular.\n*   **Backend Integration:** Integrate with a backend system to handle booking requests, store data, and manage hotel inventory.\n*   **Payment Gateway:** Integrate a secure payment gateway to process online payments.\n*   **User Authentication:** Implement user authentication to allow users to manage their bookings and preferences.\n*   **SEO Optimization:** Optimize the website for search engines to improve visibility.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the quality of the code.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:31:49",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` API) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alternative text for images.\n    *   Ensure sufficient color contrast for text and interactive elements.\n    *   Consider using ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Loading States:** Show loading indicators during API requests to inform the user that the system is processing their request.\n*   **Responsive Design:** Thoroughly test the layout on different screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **Code Modularity:** Break down the JavaScript code into smaller, reusable modules for better maintainability.\n*   **Consider using a datepicker library:** Enhance the date selection experience by using a datepicker library for the check-in and check-out fields.\n*   **Add room type selection:** Include a dropdown or radio buttons to allow users to select the type of room they want to book.\n*   **Implement a proper backend:** The form currently submits to \"/\". Implement a backend to handle the form submission and process the booking.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:49:51",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:51:46",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   Consider using a more robust datepicker library for the booking form to enhance user experience and handle date validation more effectively.\n*   Implement server-side validation and sanitization for the booking form data to prevent security vulnerabilities.\n*   Add error handling and informative messages for form submissions.\n*   Implement a proper routing mechanism instead of relying solely on anchor links (`#`) for navigation.\n*   For the room cards, consider using a more semantic element than `div` for the icons container, such as a `ul` with `li` elements.\n*   Add more detailed descriptions and amenities information for each room type.\n*   Implement a proper image optimization strategy (e.g., using responsive images with the `<picture>` element or `srcset` attribute) to improve page load times.\n*   Consider using a CSS preprocessor like Sass or Less to improve code maintainability and organization.\n*   Add unit tests for your JavaScript code to ensure its reliability.\n*   Use a consistent code style and formatting throughout the project.\n*   Consider using a framework like React, Angular, or Vue.js for more complex UI interactions and state management.\n*   Implement accessibility best practices throughout the site, including proper ARIA attributes, keyboard navigation, and color contrast.\n*   Add a loading state or spinner for images and other resources that may take time to load.\n*   Consider adding a sitemap to improve SEO.\n*   Implement analytics tracking to monitor user behavior and identify areas for improvement.\n*   Use a service worker to enable offline access and improve performance.\n*   Consider adding a cookie consent banner to comply with privacy regulations.\n*   Implement a content security policy (CSP) to protect against cross-site scripting (XSS) attacks.\n*   Use HTTPS to encrypt all communication between the client and server.\n*   Regularly update dependencies to patch security vulnerabilities.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 18:55:56",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (e.g., using `fetch` or `XMLHttpRequest`). This allows you to update the UI dynamically without full page reloads.\n*   **Date Validation:** Add JavaScript validation to the check-in and check-out dates to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:**\n    *   Use more descriptive alt text for images.\n    *   Ensure sufficient color contrast for text.\n    *   Consider using ARIA attributes to enhance the accessibility of custom components.\n*   **Error Handling:** Implement error handling for form submissions and API requests to provide informative feedback to the user.\n*   **Loading States:** Show loading indicators while data is being fetched or processed.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Vue, or Angular.",
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 22:36:07",
+    "file": "Hotel-demo/index.html",
+    "errors": [
+      "Line 17: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding more specific input types to the booking form (e.g., `type=\"email\"` for email, `type=\"tel\"` for phone number). Implement client-side validation using JavaScript to provide immediate feedback to the user.\n*   **Accessibility:** Ensure sufficient color contrast for text and interactive elements. Use ARIA attributes to enhance the accessibility of dynamic content.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages.\n*   **Responsiveness:** Test the layout on various screen sizes and devices to ensure a consistent user experience.\n*   **Security:** Sanitize user inputs to prevent cross-site scripting (XSS) attacks. Use HTTPS to encrypt data transmitted between the client and server.\n*   **Performance:** Optimize images and other assets to reduce page load time. Consider using a content delivery network (CDN) to serve static assets.\n*   **SEO:** Use descriptive alt text for images. Provide a sitemap to help search engines crawl the website.\n*   **Booking Process:** Implement a multi-step booking process with clear progress indicators.\n*   **Room Selection:** Allow users to select specific room types or amenities during the booking process.\n*   **Payment Integration:** Integrate with a secure payment gateway to process online payments.\n*   **Confirmation:** Send booking confirmation emails to users.\n*   **User Accounts:** Implement user accounts to allow users to manage their bookings and preferences.\n*   **API Integration:** Use APIs to fetch hotel data, room availability, and pricing information.\n*   **Testing:** Perform thorough testing to ensure the functionality and usability of the booking system.\n*   **Consider using a framework:** For more complex applications, consider using a framework like React, Angular, or Vue.js to manage the user interface and data flow.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 1,
+          "content": "<!-- DO NOT FIX -->"
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 1,
+          "content": ""
+        },
+        {
+          "line_num": 14,
+          "content": "  <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 4
+      }
+    },
+    "status": "applied",
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 22:43:56",
+    "file": "Hotel-demo/index.html",
+    "backup_path": "backups/index_20250711_224356.html",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Validation:** Implement client-side form validation using JavaScript to provide immediate feedback to users and prevent invalid data from being submitted.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages to guide users in resolving issues.\n*   **Accessibility Improvements:** Ensure all interactive elements are accessible via keyboard and screen readers. Use ARIA attributes to provide additional context where necessary.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using lazy loading for images that are not immediately visible.\n*   **Mobile Responsiveness:** Test the website on various mobile devices and screen sizes to ensure a consistent and user-friendly experience.\n*   **Security:** Implement security best practices to protect user data and prevent common web vulnerabilities.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 21,
+          "content": "        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\">"
+        }
+      ],
+      "removed_lines": [
+        {
+          "line_num": 21,
+          "content": "        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+        }
+      ],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 1
+      }
+    },
+    "status": "applied",
+    "auto_apply": false,
+    "requires_manual_review": true,
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 22:54:29",
+    "file": "Hotel-demo/index.html",
+    "backup_path": "backups/index_20250711_225429.html",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (AJAX) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:** Use more descriptive alt text for images.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Consider a Datepicker Library:** Integrate a datepicker library for a more user-friendly date selection experience.\n*   **Responsive Images:** Use the `<picture>` element or `srcset` attribute in `<img>` tags to provide responsive images for different screen sizes.\n*   **Lazy Loading:** Implement lazy loading for images using JavaScript to improve page load performance.\n*   **SEO Enhancement:** Use more descriptive and relevant keywords in the `meta` description.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js.",
+    "changes": {
+      "added_lines": [
+        {
+          "line_num": 8,
+          "content": "  <title>Hotel Booking System</title>"
+        }
+      ],
+      "removed_lines": [],
+      "modified_lines": [],
+      "line_changes": [],
+      "summary": {
+        "total_lines_added": 1,
+        "total_lines_removed": 0
+      }
+    },
+    "status": "applied",
+    "auto_apply": false,
+    "requires_manual_review": true,
+    "applied_at": "2025-07-11 22:55:12"
+  },
+  {
+    "timestamp": "2025-07-11 22:43:56",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:05:47",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The fix closes the button tag on line 21, addressing the original error. This is a simple and direct fix with minimal risk.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 1,
+      "total_lines_removed": 1,
+      "diff_text": "--- original+++ corrected@@ -18,7 +18,7 @@         <div class=\"logo\">\n           <a href=\"/\"><img src=\"assets/logo.png\" alt=\"Hotel Logo\" /></a>\n         </div>\n-        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\"\n+        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\">\n           <i class=\"ri-menu-line\"></i>\n         </button>\n       </div>\n"
+    },
+    "explanation": "",
+    "recommendations": "*   **Form Validation:** Implement client-side form validation using JavaScript to provide immediate feedback to users and prevent invalid data from being submitted.\n*   **Error Handling:** Implement robust error handling for form submissions and API requests. Display user-friendly error messages to guide users in resolving issues.\n*   **Accessibility Improvements:** Ensure all interactive elements are accessible via keyboard and screen readers. Use ARIA attributes to provide additional context where necessary.\n*   **Performance Optimization:** Optimize images and other assets to improve page load times. Consider using lazy loading for images that are not immediately visible.\n*   **Mobile Responsiveness:** Test the website on various mobile devices and screen sizes to ensure a consistent and user-friendly experience.\n*   **Security:** Implement security best practices to protect user data and prevent common web vulnerabilities.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js."
+  },
+  {
+    "timestamp": "2025-07-11 22:54:29",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Missing <title> tag in head"
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:05:50",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The proposed fix adds the missing `<title>` tag within the `<head>` section, which directly addresses the detected error. This is a standard HTML practice and doesn't introduce any new functionality or potential for breakage.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 1,
+      "total_lines_removed": 0
+    },
+    "explanation": "",
+    "recommendations": "*   **Form Submission Handling:** Implement JavaScript to handle form submissions asynchronously (AJAX) to provide a better user experience without page reloads.\n*   **Date Validation:** Add JavaScript validation to ensure that the check-out date is after the check-in date.\n*   **Accessibility Improvements:** Use more descriptive alt text for images.\n*   **Error Handling:** Implement error handling for form submissions and API requests.\n*   **Consider a Datepicker Library:** Integrate a datepicker library for a more user-friendly date selection experience.\n*   **Responsive Images:** Use the `<picture>` element or `srcset` attribute in `<img>` tags to provide responsive images for different screen sizes.\n*   **Lazy Loading:** Implement lazy loading for images using JavaScript to improve page load performance.\n*   **SEO Enhancement:** Use more descriptive and relevant keywords in the `meta` description.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js."
+  },
+  {
+    "timestamp": "2025-07-11 23:00:40",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:05:53",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The original code has an unclosed button tag. Closing the tag is a safe and correct fix.",
+      "safety_notes": "Ensure the closing tag is `</button>`."
+    },
+    "changes_summary": {
+      "total_lines_added": 0,
+      "total_lines_removed": 265
+    },
+    "explanation": "",
+    "recommendations": ""
+  },
+  {
+    "timestamp": "2025-07-11 23:04:58",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:05:56",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The original code has an incomplete button tag. Adding the closing angle bracket completes the tag and fixes the error. This is a standard HTML fix and should not break any existing functionality.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 0,
+      "total_lines_removed": 265
+    },
+    "explanation": "",
+    "recommendations": ""
+  },
+  {
+    "timestamp": "2025-07-11 23:09:23",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 21: Incomplete tag (likely missing '>') -> <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\""
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:09:53",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The fix closes the button tag, addressing the original error. This is a straightforward correction with minimal risk.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 1,
+      "total_lines_removed": 1,
+      "diff_text": "--- original+++ corrected@@ -18,7 +18,7 @@         <div class=\"logo\">\n           <a href=\"/\"><img src=\"assets/logo.png\" alt=\"Hotel Logo\" /></a>\n         </div>\n-        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\"\n+        <button class=\"nav__menu__btn\" id=\"menu-btn\" aria-label=\"Toggle Menu\">\n           <i class=\"ri-menu-line\"></i>\n         </button>\n       </div>\n"
+    },
+    "explanation": "",
+    "recommendations": "*   **Form Enhancements:** Consider adding features like room type selection, price display, and total cost calculation to the booking form.\n*   **Accessibility:** Ensure sufficient color contrast and keyboard navigation throughout the site. Use ARIA attributes where necessary to improve screen reader experience.\n*   **Error Handling:** Implement client-side and server-side validation for the booking form to provide informative error messages to the user.\n*   **Responsiveness:** Test the layout on various screen sizes and devices to ensure a consistent and user-friendly experience.\n*   **SEO:** Optimize images with descriptive alt text and use semantic HTML tags to improve search engine ranking.\n*   **Performance:** Optimize images and other assets to reduce page load time. Consider using a Content Delivery Network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against Cross-Site Scripting (XSS) and other common web vulnerabilities.\n*   **User Experience:** Add animations and transitions to improve the user experience. Consider using a progress indicator during booking to keep the user informed.\n*   **Testing:** Conduct thorough testing to ensure that all features are working as expected.\n*   **Consider using a framework:** For larger projects, consider using a framework like React, Angular, or Vue.js to improve code organization and maintainability."
+  },
+  {
+    "timestamp": "2025-07-11 23:19:14",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "status": "applied_auto",
+    "applied_at": "2025-07-11 23:19:29",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The fix adds the missing closing angle bracket to the `<a>` tag, correcting the incomplete tag error. This is a straightforward fix with no apparent risk of breaking existing functionality.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 1,
+      "total_lines_removed": 1,
+      "diff_text": "--- original+++ corrected@@ -11,7 +11,7 @@ </head>\n \n <body>\n-  <a href=\"#main\" class=\"skip-link\">Skip to main content</a\n+  <a href=\"#main\" class=\"skip-link\">Skip to main content</a>\n   <header class=\"header\">\n     <nav class=\"nav\">\n       <div class=\"nav__bar\">\n"
+    },
+    "explanation": "",
+    "recommendations": "*   **Form Submission:** Implement actual form submission handling using JavaScript to interact with a backend service for checking availability and completing bookings.\n*   **Accessibility:** Thoroughly test with screen readers and keyboard navigation to ensure full accessibility.\n*   **Error Handling:** Add client-side validation and error messages to the booking form.\n*   **Date Validation:** Implement JavaScript to prevent users from selecting check-out dates before check-in dates.\n*   **Responsive Design:** Ensure the layout is fully responsive across different screen sizes.\n*   **Semantic HTML:** Use more semantic HTML5 elements where appropriate (e.g., `<article>` for room cards, `<aside>` for related content).\n*   **Lazy Loading:** Implement lazy loading for images to improve page load performance.\n*   **SEO:** Optimize meta tags and content for search engines.\n*   **Favicon:** Add a favicon to the site.\n*   **JavaScript Modules:** Consider using JavaScript modules for better code organization.\n*   **CSS Preprocessor:** Use a CSS preprocessor like Sass or Less for more maintainable styles.\n*   **Consider using a framework:** Consider using a framework like React, Vue, or Angular for more complex applications."
+  },
+  {
+    "timestamp": "2025-07-11 23:37:52",
+    "file": "Hotel-demo/index.html",
+    "language": "HTML",
+    "errors": [
+      "Line 14: Incomplete tag (likely missing '>') -> <a href=\"#main\" class=\"skip-link\">Skip to main content</a"
+    ],
+    "status": "applied",
+    "applied_at": "2025-07-11 23:40:29",
+    "ai_analysis": {
+      "decision": "APPLY",
+      "risk_level": "LOW",
+      "confidence": 100,
+      "reasoning": "The original error was an incomplete tag. The proposed fix does not modify the code, so it is safe. The error was likely a false positive, as the tag is complete in both the original and proposed code.",
+      "safety_notes": "None"
+    },
+    "changes_summary": {
+      "total_lines_added": 0,
+      "total_lines_removed": 0,
+      "diff_text": "No changes detected"
+    },
+    "explanation": "",
+    "recommendations": "*   **Form Enhancement:** Consider adding more input fields to the booking form, such as room type, number of adults, and number of children. Implement form validation using JavaScript to ensure data accuracy before submission.\n*   **Accessibility:** Ensure all interactive elements (buttons, links, form fields) have appropriate ARIA attributes for screen reader users. Test the website with a screen reader to identify and fix any accessibility issues.\n*   **Error Handling:** Implement proper error handling for form submissions and API requests. Display user-friendly error messages to guide users in case of issues.\n*   **Datepicker:** Use a datepicker library for the check-in and check-out date fields to improve usability and prevent invalid date entries.\n*   **Responsive Design:** Thoroughly test the website on various devices and screen sizes to ensure a consistent and user-friendly experience.\n*   **Performance Optimization:** Optimize images and other assets to improve page load speed. Consider using a content delivery network (CDN) to serve static assets.\n*   **Security:** Implement security measures to protect against common web vulnerabilities, such as cross-site scripting (XSS) and SQL injection.\n*   **SEO:** Optimize the website for search engines by using relevant keywords in the content, meta descriptions, and image alt tags.\n*   **Testing:** Implement unit tests and end-to-end tests to ensure the website functions correctly and reliably.\n*   **Code Formatting:** Use a code formatter to maintain consistent code style and readability.\n*   **Consider using a framework:** For a more complex application, consider using a framework like React, Angular, or Vue.js."
   }
 ]
