@@ -1,0 +1,30 @@
+
+# Validation System
+api.txt
+error_log.json
+solutions.json
+fix_log.json
+validation_report.md
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if using Node.js)
+node_modules/
+
+# Docker
+.dockerignore
+Dockerfile.dev
+
