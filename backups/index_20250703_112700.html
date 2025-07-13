@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Missing title tag - ERROR -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Luxury Hotel Kathmandu 
+        <nav>
+            <ul>
+                <li><a href="">Home</a></li>  <!-- Empty href - ERROR -->
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h2>Welcome to Paradise
+            <p>Experience luxury in the heart of Kathmandu
+            <!-- Missing closing p tag - ERROR -->
+            <img src="hotel-front.jpg">   <!-- Missing alt attribute - ERROR -->
+        </section>
+
+        <section id="rooms">
+            <h2>Our Rooms</h2>
+            <div class="room-grid">
+                <div class="room">
+                    <h3>Deluxe Room</h3>
+                    <p>Spacious room with mountain views</p>
+                    <p>Price: $150/night</p>
+                </div>
+                <div class="room">
+                    <h3>Suite Room</h3>
+                    <p>Luxury suite with balcony</p>
+                    <p>Price: $250/night</p>
+                </div>
+        </section>  <!-- Missing closing div tag - ERROR -->
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Email: info@luxuryhotel.com</p>
+            <p>Phone: +977-1-4567890</p>
+            <p>Address: Thamel, Kathmandu, Nepal</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Luxury Hotel Kathmandu. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+<!-- Missing closing body tag - ERROR -->
+</html>

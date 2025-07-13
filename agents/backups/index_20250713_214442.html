@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head> 
+<body> 
+    <nav class="navbar" id="navbar"> 
+        <div class="nav-container">
+            <a href="#" class="logo">The Meridian Grand</a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                <li><a href="#" class="nav-link" data-page="rooms">Rooms</a></li>
+                <li><a href="#" class="nav-link" data-page="bookings">Bookings</a></li>
+                <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <div class="page active" id="home">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Luxury</h1>
+                <p>Experience unparalleled elegance and comfort at The Meridian Grand, where every detail is crafted to perfection</p>
+                <a href="#" class="cta-button" data-page="bookings">Book Your Stay</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Featured Rooms</h2>
+                <div class="rooms-grid">
+                    <div class="room-card scroll-reveal">
+                        <div class="room-image" style="background-image: url('assets/room-1.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Presidential Suite</h3>
+                            <p class="room-price">$899/night</p>
+                            <ul class="room-features">
+                                <li>• King-size bed with premium linens</li>
+                                <li>• Private balcony with city views</li>
+                                <li>• Marble bathroom with jacuzzi</li>
+                                <li>• 24/7 concierge service</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card scroll-reveal">
+                        <div class="room-image" style="background-image: url('assets/room-2.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Executive Suite</h3>
+                            <p class="room-price">$599/night</p>
+                            <ul class="room-features">
+                                <li>• Queen-size bed with luxury amenities</li>
+                                <li>• Separate living area</li>
+                                <li>• Modern bathroom with rainfall shower</li>
+                                <li>• Complimentary breakfast</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card scroll-reveal">
+                        <div class="room-image" style="background-image: url('assets/room-3.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Deluxe Room</h3>
+                            <p class="room-price">$399/night</p>
+                            <ul class="room-features">
+                                <li>• Comfortable king or twin beds</li>
+                                <li>• City or garden views</li>
+                                <li>• Premium bathroom amenities</li>
+                                <li>• High-speed Wi-Fi</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="page" id="about">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">About The Meridian Grand</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>The Meridian Grand stands as a testament to luxury and sophistication, offering an unparalleled hospitality experience in the heart of the city. Since our opening in 1985, we have been committed to providing guests with exceptional service, elegant accommodations, and memorable experiences.</p>
+                        
+                        <p>Our hotel features 200 beautifully appointed rooms and suites, each designed with meticulous attention to detail. From our marble-clad lobbies to our world-class spa and dining facilities, every aspect of The Meridian Grand reflects our commitment to excellence.</p>
+                        
+                        <p>We pride ourselves on our personalized service, ensuring that every guest feels valued and pampered throughout their stay. Our dedicated team of hospitality professionals is available 24/7 to cater to your every need.</p>
+                    </div>
+                    <div class="about-image"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="page" id="rooms">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Our Rooms & Suites</h2>
+                <div class="rooms-grid">
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('assets/room-1.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Presidential Suite</h3>
+                            <p class="room-price">$899/night</p>
+                            <ul class="room-features">
+                                <li>• 1,200 sq ft of luxury living space</li>
+                                <li>• King-size bed with premium linens</li>
+                                <li>• Private balcony with panoramic city views</li>
+                                <li>• Marble bathroom with jacuzzi and rainfall shower</li>
+                                <li>• Separate living and dining areas</li>
+                                <li>• 24/7 personal concierge service</li>
+                                <li>• Complimentary champagne and fresh flowers</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('assets/room-2.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Executive Suite</h3>
+                            <p class="room-price">$599/night</p>
+                            <ul class="room-features">
+                                <li>• 800 sq ft of elegant comfort</li>
+                                <li>• Queen-size bed with luxury amenities</li>
+                                <li>• Separate living area with work desk</li>
+                                <li>• Modern bathroom with rainfall shower</li>
+                                <li>• Complimentary breakfast and evening cocktails</li>
+                                <li>• Access to executive lounge</li>
+                                <li>• High-speed Wi-Fi and smart TV</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('assets/room-3.jpg')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Deluxe Room</h3>
+                            <p class="room-price">$399/night</p>
+                            <ul class="room-features">
+                                <li>• 450 sq ft of comfortable space</li>
+                                <li>• King or twin beds with quality linens</li>
+                                <li>• City or garden views</li>
+                                <li>• Premium bathroom amenities</li>
+                                <li>• Work desk and seating area</li>
+                                <li>• High-speed Wi-Fi and cable TV</li>
+                                <li>• 24-hour room service</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Garden Suite</h3>
+                            <p class="room-price">$699/night</p>
+                            <ul class="room-features">
+                                <li>• 650 sq ft with private garden access</li>
+                                <li>• King-size bed with organic linens</li>
+                                <li>• Private terrace overlooking gardens</li>
+                                <li>• Spa-inspired bathroom with soaking tub</li>
+                                <li>• Separate sitting area with fireplace</li>
+                                <li>• Complimentary spa treatments</li>
+                                <li>• Eco-friendly amenities</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('https://images.unsplash.com/photo-1595576508898-0ad5c879a061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Standard Room</h3>
+                            <p class="room-price">$299/night</p>
+                            <ul class="room-features">
+                                <li>• 350 sq ft of thoughtful design</li>
+                                <li>• Queen-size bed with comfort bedding</li>
+                                <li>• Modern bathroom with walk-in shower</li>
+                                <li>• Work desk and comfortable seating</li>
+                                <li>• High-speed Wi-Fi and smart TV</li>
+                                <li>• Daily housekeeping service</li>
+                                <li>• Climate control and safe</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-image" style="background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')"></div>
+                        <div class="room-info">
+                            <h3 class="room-title">Penthouse Suite</h3>
+                            <p class="room-price">$1,299/night</p>
+                            <ul class="room-features">
+                                <li>• 1,500 sq ft of ultimate luxury</li>
+                                <li>• Master bedroom with California king bed</li>
+                                <li>• Private rooftop terrace with city skyline views</li>
+                                <li>• Full kitchen and dining area</li>
+                                <li>• Master bathroom with infinity tub</li>
+                                <li>• Private elevator access</li>
+                                <li>• Butler service and personal chef available</li>
+                            </ul>
+                            <button class="book-button">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="page" id="bookings">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Book Your Stay</h2>
+                <div class="booking-form">
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="checkin">Check-in Date</label>
+                            <input type="date" id="checkin" name="checkin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout">Check-out Date</label>
+                            <input type="date" id="checkout" name="checkout" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="room-type">Room Type</label>
+                            <select id="room-type" name="room-type" required>
+                                <option value="">Select Room Type</option>
+                                <option value="standard">Standard Room - $299/night</option>
+                                <option value="deluxe">Deluxe Room - $399/night</option>
+                                <option value="executive">Executive Suite - $599/night</option>
+                                <option value="garden">Garden Suite - $699/night</option>
+                                <option value="presidential">Presidential Suite - $899/night</option>
+                                <option value="penthouse">Penthouse Suite - $1,299/night</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <select id="guests" name="guests" required>
+                                <option value="">Select Guests</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="5">5+ Guests</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="special-requests">Special Requests</label>
+                            <textarea id="special-requests" name="special-requests" rows="4" placeholder="Any special requests or preferences..."></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Complete Booking</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="page" id="contact">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">📍</div>
+                        <h3>Location</h3>
+                        <p>123 Grand Avenue<br>Metropolitan City, MC 10001<br>United States</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <h3>Phone</h3>
+                        <p>Reservations: +1 (555) 123-4567<br>Concierge: +1 (555) 123-4568<br>Main: +1 (555) 123-4569</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">✉️</div>
+                        <h3>Email</h3>
+                        <p>reservations@meridiangrand.com<br>concierge@meridiangrand.com<br>info@meridiangrand.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">🕒</div>
+                        <h3>Hours</h3>
+                        <p>Front Desk: 24/7<br>Concierge: 6:00 AM - 10:00 PM<br>Restaurant: 6:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="booking-form">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-navy);">Send us a Message</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" name="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email Address</label>
+                            <input type="email" id="contact-email" name="contact-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Meridian Grand</h3>
+                    <p>Where luxury meets comfort, and every moment becomes a cherished memory.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" data-page="home">Home</a></p>
+                    <p><a href="#" data-page="about">About</a></p>
+                    <p><a href="#" data-page="rooms">Rooms</a></p>
+                    <p><a href="#" data-page="bookings">Bookings</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <p>24/7 Concierge</p>
+                    <p>Spa & Wellness</p>
+                    <p>Fine Dining</p>
+                    <p>Business Center</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Facebook | Twitter</p>
+                    <p>Instagram | LinkedIn</p>
+                    <p>Newsletter Signup</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; margin-top: 2rem;">
+                <p>&copy; 2025 The Meridian Grand. All rights reserved.</p
+            </div>
+        </div>
+    </footer>
+ 
+   <script src="main.js"></script>
+</body>
+</html>
