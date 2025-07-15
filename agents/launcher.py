@@ -267,10 +267,16 @@ def push_to_github_stream():
             with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
                 flow_data = json.load(f)
 
-            existing_ids = [
-                int(item.get("Deploy", {}).get("Dep_id", "Dep-000").split("-")[1])
-                for item in flow_data if "Deploy" in item and "Dep_id" in item["Deploy"]
-            ]
+            existing_ids = []
+
+            for item in flow_data:
+                dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
+                if dep_id and "-" in dep_id:
+                    try:
+                        existing_ids.append(int(dep_id.split("-")[1]))
+                    except (IndexError, ValueError):
+                        continue
+
             next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
 
             for item in flow_data:
