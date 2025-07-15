@@ -5,6 +5,7 @@ import json
 import requests
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import datetime
 import re
 import sys
 
@@ -214,7 +215,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                     item['Solution'] = {
                         "solution_id": solution_id,
                         "status": "Analyzed",
-                        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "time": datetime.now().strftime("%I:%M:%S %p"),
                         "analysis": " | ".join(explanations)
                     }
 

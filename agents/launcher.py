@@ -284,7 +284,7 @@ def push_to_github_stream():
                     item["Deploy"] = {
                         "Dep_id": next_dep_id,
                         "status": "deployed",
-                        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "time": datetime.now().strftime("%I:%M:%S %p"),
                         "analysis": commit_hash
                     }
 
