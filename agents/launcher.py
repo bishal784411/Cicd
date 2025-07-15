@@ -9,14 +9,13 @@ import threading
 import requests
 import uvicorn
 import psutil
-from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks
+from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse, StreamingResponse
+from fastapi.responses import PlainTextResponse, StreamingResponse, JSONResponse
 from solution_agent import SolutionAgent
 from monitor_agent import MonitorAgent
 from fix_agent import AIFixAgent
-
-
+from typing import Optional
 import asyncio
 # Log file paths
 ERROR_LOG_PATH = Path("error_log.json")
@@ -148,56 +147,6 @@ def push_to_github():
         print(f"❌ GitHub push failed: {error_message}")
         return False, error_message
     
-# def push_to_github_stream():
-#     try:
-#         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
-#             fix_log = json.load(f)
-
-#         pending_entries = [entry for entry in reversed(fix_log) if not entry.get("isPushed")]
-#         if not pending_entries:
-#             yield "⚠️ No unpushed entries found in fix_log.json"
-#             return
-
-#         latest_entry = pending_entries[0]
-#         commit_message = f"Fix applied to {latest_entry['file']} at {latest_entry['applied_at']}"
-#         yield f"🔧 Preparing to commit: {commit_message}"
-
-#         # Git add
-#         yield "📦 Running: git add ."
-#         subprocess.run(["git", "add", "."], check=True)
-
-#         # Git commit
-#         yield f"✍️ Committing changes..."
-#         subprocess.run(["git", "commit", "-m", commit_message], check=True)
-
-#         # Git push
-#         yield "🚀 Pushing to GitHub..."
-#         subprocess.run(["git", "push"], check=True)
-
-#         # Mark as pushed
-#         for entry in fix_log:
-#             if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
-#                 entry["isPushed"] = True
-#                 entry["error_push"] = None
-
-#         with open("fix_log.json", "w") as f:
-#             json.dump(fix_log, f, indent=2)
-
-#         yield "✅ GitHub push successful."
-
-#     except subprocess.CalledProcessError as e:
-#         error_message = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
-#         yield f"❌ GitHub push failed: {error_message}"
-
-#         # Mark the entry with error
-#         for entry in fix_log:
-#             if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
-#                 entry["isPushed"] = False
-#                 entry["error_push"] = error_message
-
-#         with open("fix_log.json", "w") as f:
-#             json.dump(fix_log, f, indent=2)
-
 def push_to_github_stream():
     try:
         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
@@ -311,12 +260,21 @@ def push_to_github_stream():
 # ---------- FastAPI Setup ----------
 app = FastAPI()
 
+
+
+# You can add additional URLs to this list, for example, the frontend's production domain, or other frontends.
+allowed_origins = [
+    "http://localhost:5173"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["X-Requested-With", "Content-Type"],
 )
+
 
 agent_map = {
     "solution": SolutionAgent(),
@@ -694,6 +652,31 @@ async def stream_agent_logs(agent_name: str):
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+
+@api_router.get("/agents/process/flow")
+def get_all_deployments(
+    err_id: Optional[str] = Query(None),
+    filename: Optional[str] = Query(None),
+    dep_id: Optional[str] = Query(None)
+):
+    if not flOW_LOG_PATH.exists():
+        return JSONResponse(content={"error": "process_flow.json not found"}, status_code=404)
+
+    with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    # Optional filters
+    filtered = []
+    for entry in data:
+        if err_id and entry.get("monitor", {}).get("error_id") != err_id:
+            continue
+        if filename and entry.get("filename") != filename:
+            continue
+        if dep_id and entry.get("Deploy", {}).get("Dep_id") != dep_id:
+            continue
+        filtered.append(entry)
+
+    return filtered
 
 
 # ---------- Include Router ----------

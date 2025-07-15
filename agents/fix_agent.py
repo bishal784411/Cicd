@@ -263,7 +263,7 @@ class AIFixAgent:
 
                     item['Fix'] = {
                         "fix_id": fix_id,
-                        "status": "completed",
+                        "status": "ready",
                         "time": datetime.now().strftime("%I:%M:%S %p"),
                         "analysis": reasoning_text
                     }

@@ -22,10 +22,10 @@
       "analysis": "The fix adds the missing `<title>` tag to the `<head>` section, which is the correct solution to the reported error. This is a standard HTML practice and doesn't introduce any risk of breaking existing functionality."
     },
     "Deploy": {
-      "fix_id": "",
-      "status": "pending",
-      "time": "",
-      "analysis": "Push from the respective fix page."
+      "Dep_id": "Dep-001",
+      "status": "deployed",
+      "time": "12:39:23 AM",
+      "analysis": "d7c7bc5b92cf7b8da584d0a78ef679881d4a3297"
     }
   }
 ]
