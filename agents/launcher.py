@@ -4,20 +4,25 @@ import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime, timedelta
-import time
-
+import time, shlex
+import threading
 import requests
 import uvicorn
 import psutil
-from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse, StreamingResponse
+from solution_agent import SolutionAgent
+from monitor_agent import MonitorAgent
+from fix_agent import AIFixAgent
+
 
 import asyncio
 # Log file paths
 ERROR_LOG_PATH = Path("error_log.json")
 SOLUTION_LOG_PATH = Path("solutions.json")
 FIX_LOG_PATH = Path("fix_log.json")
+
 
 
 # ---------- Agent Management ----------
@@ -42,11 +47,19 @@ class AgentLauncher:
         if agent_name in self.processes and self.processes[agent_name].poll() is None:
             return f"{agent_name} is already running."
         try:
-            process = subprocess.Popen([sys.executable, self.agents[agent_name]])
+            process = subprocess.Popen(
+                [sys.executable, "-u", self.agents[agent_name]],  # <- Add "-u" here
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                bufsize=1,
+            )
+
             self.processes[agent_name] = process
             return f"{agent_name} started."
         except Exception as e:
             raise RuntimeError(f"Failed to launch {agent_name}: {e}")
+
 
     def stop_agent(self, agent_name):
         if agent_name in self.processes:
@@ -133,6 +146,56 @@ def push_to_github():
         print(f"❌ GitHub push failed: {error_message}")
         return False, error_message
     
+def push_to_github_stream():
+    try:
+        with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
+            fix_log = json.load(f)
+
+        pending_entries = [entry for entry in reversed(fix_log) if not entry.get("isPushed")]
+        if not pending_entries:
+            yield "⚠️ No unpushed entries found in fix_log.json"
+            return
+
+        latest_entry = pending_entries[0]
+        commit_message = f"Fix applied to {latest_entry['file']} at {latest_entry['applied_at']}"
+        yield f"🔧 Preparing to commit: {commit_message}"
+
+        # Git add
+        yield "📦 Running: git add ."
+        subprocess.run(["git", "add", "."], check=True)
+
+        # Git commit
+        yield f"✍️ Committing changes..."
+        subprocess.run(["git", "commit", "-m", commit_message], check=True)
+
+        # Git push
+        yield "🚀 Pushing to GitHub..."
+        subprocess.run(["git", "push"], check=True)
+
+        # Mark as pushed
+        for entry in fix_log:
+            if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
+                entry["isPushed"] = True
+                entry["error_push"] = None
+
+        with open("fix_log.json", "w") as f:
+            json.dump(fix_log, f, indent=2)
+
+        yield "✅ GitHub push successful."
+
+    except subprocess.CalledProcessError as e:
+        error_message = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
+        yield f"❌ GitHub push failed: {error_message}"
+
+        # Mark the entry with error
+        for entry in fix_log:
+            if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
+                entry["isPushed"] = False
+                entry["error_push"] = error_message
+
+        with open("fix_log.json", "w") as f:
+            json.dump(fix_log, f, indent=2)
+
 
 # ---------- FastAPI Setup ----------
 app = FastAPI()
@@ -144,6 +207,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+agent_map = {
+    "solution": SolutionAgent(),
+    "monitor": MonitorAgent(),
+    "fix": AIFixAgent()
+}
+
 api_router = APIRouter()
 launcher = AgentLauncher()
 
@@ -152,6 +221,14 @@ launcher = AgentLauncher()
 def startup_event():
     if not launcher.check_requirements():
         print("System requirements not met.")
+
+
+@api_router.get("/github/push/stream")
+def stream_push_to_github():
+    def event_generator():
+        for log_line in push_to_github_stream():
+            yield f"data: {log_line}\n\n"
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 # ---------- Utility Routes ----------
@@ -284,6 +361,65 @@ def get_solution_by_file(filename: str):
         raise HTTPException(status_code=500, detail=f"Failed to filter Solutions: {e}")
 
 
+@api_router.get("/solution/resolve/{err_id}")
+def resolve_specific_error(err_id: str):
+    try:
+        script_dir = os.path.abspath(os.path.dirname("solution_agent.py"))
+        process = subprocess.Popen(
+            [sys.executable, "solution_agent.py", "--err-id", err_id],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            cwd=script_dir,
+        )
+        return {"message": f"🔄 SolutionAgent started for error ID: {err_id}", "pid": process.pid}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/solution/{err_id}/stream/logs")
+async def stream_solution_logs(err_id: str):
+    # Launch the subprocess with unbuffered output
+    process = subprocess.Popen(
+        [sys.executable, "-u", "solution_agent.py", "--err-id", err_id],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,
+    )
+
+    queue = asyncio.Queue()
+    loop = asyncio.get_running_loop()
+
+    def enqueue_output(stream, prefix):
+        for line in iter(stream.readline, ''):
+            if not line:
+                break
+            asyncio.run_coroutine_threadsafe(queue.put(f"{prefix} {line.strip()}"), loop)
+        stream.close()
+
+    # Start threads to read stdout and stderr
+    threading.Thread(target=enqueue_output, args=(process.stdout, "OUT:"), daemon=True).start()
+    threading.Thread(target=enqueue_output, args=(process.stderr, "ERR:"), daemon=True).start()
+
+    async def event_generator():
+        while True:
+            try:
+                line = await queue.get()
+                yield f"data: {line}\n\n"
+            except asyncio.CancelledError:
+                # If client disconnects, terminate the process
+                if process.poll() is None:
+                    process.terminate()
+                break
+
+            # Exit if process finished and queue empty
+            if process.poll() is not None and queue.empty():
+                break
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    
 # ---------- Logs: Fixes ----------
 @api_router.get("/fixes")
 def get_all_fixes():
@@ -410,68 +546,45 @@ def system_health():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Health check failed: {e}")
 
-
-@api_router.get("/health/status/{agent_name}/stream")
-@api_router.get("/health/status/{agent_name}/stream")
-async def stream_agent_health(agent_name: str):
+@api_router.get("/agent/{agent_name}/logs/stream")
+async def stream_agent_logs(agent_name: str):
     agent_name = agent_name.lower()
     if agent_name not in launcher.agents:
-        raise HTTPException(status_code=404, detail="Unknown agent name")
+        raise HTTPException(status_code=404, detail="Unknown agent")
 
     process = launcher.processes.get(agent_name)
     if not process or process.poll() is not None:
-        async def stopped_event_generator():
+        async def stopped_gen():
             while True:
-                data = {
-                    "agent": agent_name,
-                    "status": "stopped",
-                    "uptime": None,
-                    "cpu_percent": None,
-                    "memory_mb": None,
-                }
-                yield f"data: {json.dumps(data)}\n\n"
+                yield f"data: Agent '{agent_name}' not running.\n\n"
                 await asyncio.sleep(3)
-        return StreamingResponse(stopped_event_generator(), media_type="text/event-stream")
+        return StreamingResponse(stopped_gen(), media_type="text/event-stream")
 
-    # Warm-up once
-    try:
-        p = psutil.Process(process.pid)
-        p.cpu_percent(interval=None)
-    except Exception:
-        pass
+    queue = asyncio.Queue()
+
+    loop = asyncio.get_running_loop()
+
+    def read_stream(stream, prefix, loop):
+        for line in iter(stream.readline, ''):
+            if not line:
+                break
+            asyncio.run_coroutine_threadsafe(queue.put(f"{prefix} {line.strip()}"), loop)
+        stream.close()
+
+    threading.Thread(target=read_stream, args=(process.stdout, "OUT:", loop), daemon=True).start()
+    threading.Thread(target=read_stream, args=(process.stderr, "ERR:", loop), daemon=True).start()
 
     async def event_generator():
         while True:
-            try:
-                p = psutil.Process(process.pid)
-
-                now = time.time()
-                uptime_sec = now - p.create_time()
-                uptime_str = str(timedelta(seconds=int(uptime_sec)))
-
-                cpu_percent = p.cpu_percent(interval=1.0)
-                mem_mb = p.memory_info().rss / 1024 / 1024
-
-                data = {
-                    "agent": agent_name,
-                    "status": "running",
-                    "uptime": uptime_str,
-                    "cpu_percent": round(cpu_percent, 2),
-                    "memory_mb": round(mem_mb, 2),
-                }
-            except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
-                data = {
-                    "agent": agent_name,
-                    "status": "stopped",
-                    "uptime": None,
-                    "cpu_percent": None,
-                    "memory_mb": None,
-                    "error": str(e),
-                }
-            yield f"data: {json.dumps(data)}\n\n"
-            await asyncio.sleep(2)
+            line = await queue.get()
+            yield f"data: {line}\n\n"
+            if process.poll() is not None and queue.empty():
+                break
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+
+
 # ---------- Include Router ----------
 app.include_router(api_router, prefix="/api")
 

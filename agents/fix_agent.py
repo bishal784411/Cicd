@@ -202,25 +202,10 @@ class AIFixAgent:
         ))
         
         if diff:
-            print("\n🔍 CHANGES DETECTED:")
-            print("-" * 60)
+            print("\n🔍 CHANGES DETECTED")
             
-            for line in diff[:50]:  # Show first 50 lines of diff
-                if line.startswith('---') or line.startswith('+++'):
-                    print(f"📁 {line.strip()}")
-                elif line.startswith('@@'):
-                    print(f"📍 {line.strip()}")
-                elif line.startswith('-'):
-                    print(f"❌ {line.rstrip()}")
-                elif line.startswith('+'):
-                    print(f"✅ {line.rstrip()}")
             
-            if len(diff) > 50:
-                print(f"... ({len(diff) - 50} more lines)")
-            
-            print("-" * 60)
-        else:
-            print("\n⚠️  No differences detected")
+
     
     def apply_fix(self, file_path, fixed_code):
         """Apply the fix to the file"""
@@ -256,10 +241,9 @@ class AIFixAgent:
         
         except Exception as e:
             print(f"❌ Error updating error log: {e}")
-
-    
+            
     def save_to_fix_log(self, solution, ai_analysis):
-        """Save applied solution to fix_log.json"""
+        """Save applied solution to fix_log.json with sequential fix_id (FIX-001, FIX-002, ...)"""
         try:
             fix_log_path = Path("fix_log.json")
             fix_log = []
@@ -268,19 +252,30 @@ class AIFixAgent:
                 with open(fix_log_path, 'r') as f:
                     fix_log = json.load(f)
 
+            # Generate the next FIX ID
+            existing_ids = [
+                int(entry['fix_id'].split('-')[1])
+                for entry in fix_log
+                if 'fix_id' in entry and entry['fix_id'].startswith('FIX-') and entry['fix_id'].split('-')[1].isdigit()
+            ]
+            next_id = max(existing_ids, default=0) + 1
+            fix_id = f"FIX-{next_id:03d}"  # Format as FIX-001, FIX-002, etc.
+
             solution_entry = {
+                'fix_id': fix_id,
+                'solution_id': solution.get('solution_id', 'N/A'),
+                'err_id': solution.get('err_id', 'N/A'),
                 'timestamp': solution['timestamp'],
                 'file': solution['file'],
                 'language': self.get_file_language(solution['file']),
                 'errors': solution['errors'],
-                'status': solution.get('fix_status', 'unknown'),  # use fix_status here
+                'status': solution.get('fix_status', 'unknown'),
                 'applied_at': solution.get('applied_at', ''),
-                'ai_analysis': ai_analysis,
-                'changes_summary': solution.get('changes', {}).get('summary', {}),
-                'explanation': solution.get('explanation', ''),
+                'ai_analysis': ai_analysis if isinstance(ai_analysis, list) else [ai_analysis],
+                'error_type': solution.get('error_type', 'unknown'),
                 'recommendations': solution.get('recommendations', ''),
                 'isPushed': False,
-                'error_push': None 
+                'error_push': None
             }
 
             fix_log.append(solution_entry)
@@ -288,13 +283,13 @@ class AIFixAgent:
             with open(fix_log_path, 'w') as f:
                 json.dump(fix_log, f, indent=2)
 
-            print("📦 Fix saved to fix_log.json")
+            print(f"📦 Fix saved to fix_log.json with ID: {fix_id}")
             return True
 
         except Exception as e:
             print(f"❌ Failed to save to fix_log.json: {e}")
             return False
-    
+
     def process_solutions(self):
         """Process pending solutions with AI analysis"""
         solutions = self.load_solutions()
@@ -332,8 +327,7 @@ class AIFixAgent:
                     with open(solution['file'], 'r', encoding='utf-8') as f:
                         original_code = f.read()
 
-                    print(f"\n💡 AI EXPLANATION:")
-                    print(f"   {solution['explanation']}")
+                    # print(f"\n💡 AI EXPLANATION:")
 
                     self.display_diff(original_code, solution['corrected_code'], solution['file'])
 
@@ -344,18 +338,34 @@ class AIFixAgent:
                         solution['corrected_code'],
                         solution['errors']
                     )
-                    ai_analysis = self.parse_ai_decision(ai_response)
+                    # ai_analysis = self.parse_ai_decision(ai_response)
+                    ai_analysis = []
+                    for err in solution['errors']:
+                        ai_resp = self.analyze_fix_with_ai(
+                            solution['file'],
+                            original_code,
+                            solution['corrected_code'],
+                            [err]  # wrap single error in list
+                        )
+                        parsed = self.parse_ai_decision(ai_resp)
+                        parsed['related_error'] = err
+                        ai_analysis.append(parsed)
 
-                    print(f"\n🤖 AI DECISION:")
-                    print(f"   Decision: {ai_analysis['decision']}")
-                    print(f"   Risk Level: {ai_analysis['risk_level']}")
-                    print(f"   Confidence: {ai_analysis['confidence']}%")
-                    print(f"   Reasoning: {ai_analysis['reasoning']}")
-                    if ai_analysis['safety_notes']:
-                        print(f"   Safety Notes: {ai_analysis['safety_notes']}")
+                    print(f"\n🤖 AI DECISION PER ERROR:")
+                    for analysis in ai_analysis:
+                        print(f"   Error: {analysis.get('related_error', 'N/A')}")
+                        print(f"   Decision: {analysis['decision']}")
+                        print(f"   Risk Level: {analysis['risk_level']}")
+                        print(f"   Confidence: {analysis['confidence']}%")
+                        print(f"   Reasoning: {analysis['reasoning']}")
+                        print(f"   For Detail view watch the filecard Below")
+                        if analysis['safety_notes']:
+                            print(f"   Safety Notes: {analysis['safety_notes']}")
+                        print("-" * 40)
+
 
                     # Decision branch
-                    if ai_analysis['decision'] == 'APPLY' and ai_analysis['confidence'] >= 70:
+                    if all(a['decision'] == 'APPLY' and a['confidence'] >= 70 for a in ai_analysis):
                         print(f"\n🚀 APPLYING FIX (AI Approved)...")
                         backup_path = self.create_backup(solution['file'])
 

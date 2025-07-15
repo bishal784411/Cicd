@@ -6,6 +6,7 @@ import requests
 from pathlib import Path
 from dotenv import load_dotenv
 import re
+import sys
 
 # Load environment variables
 load_dotenv()
@@ -73,21 +74,27 @@ model_confidence: [Give an honest confidence estimate between 0.00 and 1.00 base
 time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes"]
 """
 
-        payload = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "temperature": 0.2,
-                "topK": 40,
-                "topP": 0.95,
-                "maxOutputTokens": 4000
+        try:
+            payload = {
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "temperature": 0.2,
+                    "topK": 40,
+                    "topP": 0.95,
+                    "maxOutputTokens": 4000
+                }
             }
-        }
 
-        response = requests.post(self.gemini_url, json=payload)
-        if response.status_code == 200:
-            result = response.json()
-            if 'candidates' in result and len(result['candidates']) > 0:
-                return result['candidates'][0]['content']['parts'][0]['text']
+            response = requests.post(self.gemini_url, json=payload)
+            if response.status_code == 200:
+                result = response.json()
+                if 'candidates' in result and len(result['candidates']) > 0:
+                    return result['candidates'][0]['content']['parts'][0]['text']
+            else:
+                print(f"❌ API Error: {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"❌ Error calling Gemini API: {e}")
+        
         return "❌ Failed to generate solution"
 
     def parse_solution(self, solution_text):
@@ -120,10 +127,12 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                     key, value = line.split(':', 1)
                     metadata[key.strip()] = value.strip()
 
+        # Clean up code formatting
         corrected_code = re.sub(r'^```[\w]*\n', '', corrected_code)
         corrected_code = re.sub(r'\n?```[\s]*$', '', corrected_code)
         corrected_code = corrected_code.strip()
 
+        # Add default recommendations if none found
         if len(recommendations) < 3:
             recommendations += [
                 "Use semantic HTML elements to improve accessibility.",
@@ -131,9 +140,9 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                 "Ensure all tags are properly closed and nested."
             ][:3 - len(recommendations)]
 
-        # Defaults if not present
+        # Set defaults for metadata
         metadata.setdefault("created_by", "Gemini 2.0 Flash")
-        metadata.setdefault("model_confidence", 0.87)
+        metadata.setdefault("model_confidence", "0.87")
         metadata.setdefault("time_estimate_fix", "2 minutes")
 
         return {
@@ -191,6 +200,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                     solutions = json.load(f)
 
             solution_id = f"SOL-{len(solutions) + 1:03}"
+            err_id = error_entry.get('err_id', 'UnknownErrID')
 
             available_solutions = []
             for err in errors:
@@ -209,11 +219,10 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                 '.css': "This is a CSS file for styling a hotel booking system. Focus on proper CSS syntax, responsive design, and modern styling practices.",
                 '.js': "This is a JavaScript file for a hotel booking system. Focus on proper syntax, error handling, and modern JavaScript practices.",
             }.get(file_extension, "This is a code file that needs to be fixed.")
-            file_type = file_extension.upper().strip('.') or 'Code'
-
 
             solution_entry = {
                 "solution_id": solution_id,
+                "err_id": err_id,
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "file": file_path,
                 "backup_path": backup_path,
@@ -230,7 +239,6 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                 "model_confidence": solution_data['metadata']['model_confidence'],
                 "time_estimate_fix": solution_data['metadata']['time_estimate_fix'],
                 "created_by": solution_data['metadata']['created_by'],
-
             }
 
             solutions.append(solution_entry)
@@ -261,55 +269,117 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
             print(f"❌ Failed to save preview: {e}")
             return None
 
+    def process_single_error(self, error_entry):
+        """Process a single error entry"""
+        time.sleep(3)
+        print(f"\n🔍 Processing error [{error_entry.get('err_id', 'N/A')}] in: {error_entry['file']}")
+        
+        try:
+            # Read the original file
+            with open(error_entry['file'], 'r', encoding='utf-8') as f:
+                original_content = f.read()
+
+            # Generate solution
+            solution_text = self.generate_solution(
+                error_entry['file'],
+                original_content,
+                error_entry['errors']
+            )
+            
+            # Debug: Print the raw solution text
+            print(f"🔍 Raw solution text length: {len(solution_text)}")
+            
+            # Parse the solution
+            solution_data = self.parse_solution(solution_text)
+            solution_data['explanation'] = self.build_explanation_list(error_entry['errors'])
+
+            # Debug: Check corrected code
+            print(f"🔍 Corrected code length: {len(solution_data['corrected_code'])}")
+            if not solution_data['corrected_code']:
+                print("❌ Warning: Corrected code is empty!")
+                print(f"Raw solution text preview: {solution_text[:500]}...")
+
+            # Save preview
+            preview_path = self.save_solution_preview(error_entry['file'], solution_data)
+
+            # Save solution
+            if self.save_solution(error_entry['file'], solution_data, error_entry['errors'], original_content, error_entry):
+                print(f"✅ Saved solution for {error_entry.get('err_id', 'N/A')}. Preview: {preview_path}")
+                return True
+            else:
+                print("❌ Failed to save solution")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Error processing {error_entry['file']}: {e}")
+            return False
+
     def process_errors(self):
         error_log = self.load_error_log()
         for error_entry in error_log:
             error_id = f"{error_entry['file']}_{error_entry['timestamp']}"
             if error_id not in self.processed_errors and error_entry['status'] == 'detected':
-                error_entry['status'] = 'fixing'
+                # Update status
+                error_entry['status'] = 'Solved'
                 error_entry['pipeline_stage'] = 'solving'
                 error_entry['last_checked'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                # Save updated log
                 with open('error_log.json', 'w') as f:
                     json.dump(error_log, f, indent=2)
 
-                print(f"\n🔍 Processing error in: {error_entry['file']}")
-                try:
-                    with open(error_entry['file'], 'r', encoding='utf-8') as f:
-                        original_content = f.read()
+                # Process the error
+                if self.process_single_error(error_entry):
+                    self.processed_errors.add(error_id)
 
-                    solution_text = self.generate_solution(
-                        error_entry['file'],
-                        original_content,
-                        error_entry['errors']
-                    )
-                    solution_data = self.parse_solution(solution_text)
-                    solution_data['explanation'] = self.build_explanation_list(error_entry['errors'])
+    def process_error_by_id(self, err_id):
+        error_log = self.load_error_log()
+        error_found = False
+        
+        for error_entry in error_log:
+            if error_entry.get('err_id') == err_id:
+                error_found = True
+                
+                if error_entry['status'] != 'detected':
+                    print(f"⚠️  Error {err_id} has status '{error_entry['status']}' - processing anyway")
+                
+                print(f"🎯 Running SolutionAgent on specific error: {err_id}")
+                
+                # Update status
+                error_entry['status'] = 'fixing'
+                error_entry['pipeline_stage'] = 'solving'
+                error_entry['last_checked'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                # Save updated log
+                with open('error_log.json', 'w') as f:
+                    json.dump(error_log, f, indent=2)
 
-                    preview_path = self.save_solution_preview(error_entry['file'], solution_data)
+                # Process the error
+                self.process_single_error(error_entry)
+                break
+        
+        if not error_found:
+            print(f"❌ Error with err_id={err_id} not found in error log.")
 
-                    # if self.save_solution(error_entry['file'], solution_data, error_entry['errors'], original_content):
-                    if self.save_solution(error_entry['file'], solution_data, error_entry['errors'], original_content, error_entry):
-
-                        print(f"✅ Saved solution. Preview at: {preview_path}")
-                        self.processed_errors.add(error_id)
-                    else:
-                        print("❌ Failed to save solution")
-                except Exception as e:
-                    print(f"❌ Error processing {error_entry['file']}: {e}")
-
-    def run(self):
-        print("🔄 Waiting for errors from Monitor Agent...")
-        try:
-            while True:
-                self.process_errors()
-                time.sleep(3)
-        except KeyboardInterrupt:
-            print("\n🛑 Stopped by user")
-            print(f"🧾 Processed: {len(self.processed_errors)} entries")
+    def run(self, err_id=None):
+        if err_id:
+            self.process_error_by_id(err_id)
+        else:
+            print("🔄 Waiting for errors from Monitor Agent...")
+            try:
+                while True:
+                    self.process_errors()
+                    time.sleep(3)
+            except KeyboardInterrupt:
+                print("\n🛑 Stopped by user")
+                print(f"🧾 Processed: {len(self.processed_errors)} entries")
 
 if __name__ == "__main__":
     try:
         agent = SolutionAgent()
-        agent.run()
+        err_id = None
+        if len(sys.argv) > 1 and sys.argv[1] == "--err-id" and len(sys.argv) > 2:
+            err_id = sys.argv[2]
+        agent.run(err_id)
     except Exception as e:
         print(f"❌ Failed to start: {e}")

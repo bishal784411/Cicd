@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>The Meridian Grand</title>
-</head>   
+    <link rel="stylesheet" href="styles.css">  
+</head>    
 <body>        
     <nav class="navbar" id="navbar">  
         <div class="nav-container">
@@ -307,4 +306,61 @@
                     <form id="contact-form">
                         <div class="form-group">
                             <label for="contact-name">Your Name</label>
-                            <input type="text" id="
+                            <input type="text" id="contact-name" name="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email Address</label>
+                            <input type="email" id="contact-email" name="contact-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Meridian Grand</h3>
+                    <p>Where luxury meets comfort, and every moment becomes a cherished memory.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" data-page="home">Home</a></p>
+                    <p><a href="#" data-page="about">About</a></p>
+                    <p><a href="#" data-page="rooms">Rooms</a></p>
+                    <p><a href="#" data-page="bookings">Bookings</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <p>24/7 Concierge</p>
+                    <p>Spa & Wellness</p>
+                    <p>Fine Dining</p>
+                    <p>Business Center</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Facebook | Twitter</p>
+                    <p>Instagram | LinkedIn</p>
+                    <p>Newsletter Signup</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; margin-top: 2rem;">
+                <p>&copy; 2025 The Meridian Grand. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+ 
+   <script src="main.js"></script>
+</body>
+</html>
