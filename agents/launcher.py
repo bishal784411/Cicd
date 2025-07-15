@@ -209,7 +209,11 @@ def push_to_github_stream():
             return
 
         latest_entry = pending_entries[0]
-        commit_message = f"Fix applied to {latest_entry['file']} at {latest_entry['applied_at']}"
+        err_id = latest_entry.get("err_id")
+        file = latest_entry.get("file")
+        fix_id = latest_entry.get("fix_id")
+
+        commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
         yield f"🔧 Preparing to commit: {commit_message}"
 
         subprocess.run(["git", "add", "."], check=True)
@@ -223,7 +227,7 @@ def push_to_github_stream():
 
         # ✅ Update fix_log.json as pushed
         for entry in fix_log:
-            if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
+            if entry.get("err_id") == err_id and entry.get("file") == file:
                 entry["isPushed"] = True
                 entry["error_push"] = None
 
@@ -231,22 +235,28 @@ def push_to_github_stream():
             json.dump(fix_log, f, indent=2)
         yield "💾 fix_log.json marked as pushed."
 
-        # ✅ Update all logs and process_flow.json
+        # ✅ Get latest Git metadata
         commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
         branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
 
+        # ✅ Helper to update individual log files
         def update_commit_info_in_file(filepath):
             if not os.path.exists(filepath):
                 return
-            with open(filepath, "r") as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
+
+            updated = False
             for item in data:
-                if item.get("timestamp") == latest_entry["timestamp"] and item.get("file") == latest_entry["file"]:
+                if item.get("err_id") == err_id and item.get("file") == file:
                     item["commit_hash"] = commit_hash
                     item["git_push"] = "pushed"
                     item["branch"] = branch
-            with open(filepath, "w") as f:
-                json.dump(data, f, indent=2)
+                    updated = True
+
+            if updated:
+                with open(filepath, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
 
         for path in ["error_log.json", "solutions.json", "fix_log.json"]:
             update_commit_info_in_file(path)
@@ -254,17 +264,17 @@ def push_to_github_stream():
 
         # ✅ Update process_flow.json -> Deploy block
         if flOW_LOG_PATH.exists():
-            with flOW_LOG_PATH.open("r") as f:
+            with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
                 flow_data = json.load(f)
 
             existing_ids = [
                 int(item.get("Deploy", {}).get("Dep_id", "Dep-000").split("-")[1])
                 for item in flow_data if "Deploy" in item and "Dep_id" in item["Deploy"]
             ]
-            next_dep_id = f"Dep-{max(existing_ids, default=0)+1:03}"
+            next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
 
             for item in flow_data:
-                if item.get("filename") == latest_entry["file"] and item.get("Fix", {}).get("fix_id") == latest_entry["fix_id"]:
+                if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
                     item["Deploy"] = {
                         "Dep_id": next_dep_id,
                         "status": "deployed",
@@ -282,15 +292,15 @@ def push_to_github_stream():
         error_msg = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
         yield f"❌ GitHub push failed: {error_msg}"
 
-        # Log the failure in fix_log.json
         for entry in fix_log:
-            if entry["timestamp"] == latest_entry["timestamp"] and entry["file"] == latest_entry["file"]:
+            if entry.get("err_id") == err_id and entry.get("file") == file:
                 entry["isPushed"] = False
                 entry["error_push"] = error_msg
 
-        with FIX_LOG_PATH.open("w") as f:
+        with FIX_LOG_PATH.open("w") as f: 
             json.dump(fix_log, f, indent=2)
         yield "💾 fix_log.json updated with push error."
+
 
 # ---------- FastAPI Setup ----------
 app = FastAPI()
