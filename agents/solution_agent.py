@@ -81,7 +81,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                     "temperature": 0.2,
                     "topK": 40,
                     "topP": 0.95,
-                    "maxOutputTokens": 4000
+                    "maxOutputTokens": 12000
                 }
             }
 
@@ -191,17 +191,69 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
             print(f"❌ Failed to create backup: {e}")
             return None
 
+    def update_process_log_with_solution(self, file_path, err_id, solution_id, available_solutions):
+        try:
+            if not os.path.exists('process_flow.json'):
+                print("⚠️ process_flow.json not found.")
+                return False
+
+            with open('process_flow.json', 'r') as f:
+                process_log = json.load(f)
+
+            matched = False
+            for item in process_log:
+                filename_match = item.get('filename', '').strip().lower() == file_path.strip().lower()
+                error_id_match = item.get('monitor', {}).get('error_id', '').strip() == err_id.strip()
+
+                if filename_match and error_id_match:
+                    explanations = [
+                        f"{sol['explanation']['text']}  code : {sol['explanation']['code_example']}"
+                        for sol in available_solutions
+                    ]
+
+                    item['Solution'] = {
+                        "solution_id": solution_id,
+                        "status": "Analyzed",
+                        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "analysis": " | ".join(explanations)
+                    }
+
+                    matched = True
+                    break
+
+            if matched:
+                with open('process_flow.json', 'w') as f:
+                    json.dump(process_log, f, indent=2)
+                print(f"📝 process_flow.json updated with solution_id: {solution_id}")
+                return True
+            else:
+                print("⚠️ No matching entry found in process_flow.json for err_id:", err_id)
+                return False
+
+        except Exception as e:
+            print(f"❌ Error updating process_flow.json: {e}")
+            return False
+
+
     def save_solution(self, file_path, solution_data, errors, original_code, error_entry):
         try:
             backup_path = self.create_backup(file_path)
             solutions = []
+
             if os.path.exists('solutions.json'):
                 with open('solutions.json', 'r') as f:
                     solutions = json.load(f)
 
-            solution_id = f"SOL-{len(solutions) + 1:03}"
+            # Generate unique solution ID
+            existing_ids = {s['solution_id'] for s in solutions}
+            i = 1
+            while f"SOL-{i:03}" in existing_ids:
+                i += 1
+            solution_id = f"SOL-{i:03}"
+
             err_id = error_entry.get('err_id', 'UnknownErrID')
 
+            # Build available_solutions
             available_solutions = []
             for err in errors:
                 match = next((ex for ex in solution_data['explanation'] if ex['error'] == err), None)
@@ -213,6 +265,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                     }
                 })
 
+            # Define context
             file_extension = Path(file_path).suffix.lower()
             context = {
                 '.html': "This is an HTML file for a hotel booking system. Focus on proper HTML structure, accessibility, and semantic markup.",
@@ -220,6 +273,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                 '.js': "This is a JavaScript file for a hotel booking system. Focus on proper syntax, error handling, and modern JavaScript practices.",
             }.get(file_extension, "This is a code file that needs to be fixed.")
 
+            # Build solution entry
             solution_entry = {
                 "solution_id": solution_id,
                 "err_id": err_id,
@@ -241,12 +295,22 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
                 "created_by": solution_data['metadata']['created_by'],
             }
 
+            # Save to solutions.json
             solutions.append(solution_entry)
             with open('solutions.json', 'w') as f:
                 json.dump(solutions, f, indent=2)
-
             print("💾 Solution saved to 'solutions.json' in full structure")
+
+            # ✅ Update process_flow.json using a separate method
+            self.update_process_log_with_solution(
+                file_path=file_path,
+                err_id=err_id,
+                solution_id=solution_id,
+                available_solutions=available_solutions
+            )
+
             return True
+
         except Exception as e:
             print(f"❌ Error saving solution: {e}")
             return False

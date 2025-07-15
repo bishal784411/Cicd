@@ -242,6 +242,48 @@ class AIFixAgent:
         except Exception as e:
             print(f"❌ Error updating error log: {e}")
             
+    def update_process_flow_with_fix(self, file_path, err_id, fix_id, ai_analysis):
+        try:
+            if not os.path.exists('process_flow.json'):
+                print("⚠️ process_flow.json not found.")
+                return False
+
+            with open('process_flow.json', 'r') as f:
+                process_log = json.load(f)
+
+            matched = False
+            for item in process_log:
+                filename_match = item.get('filename', '').strip().lower() == file_path.strip().lower()
+                error_id_match = item.get('monitor', {}).get('error_id', '').strip() == err_id.strip()
+
+                if filename_match and error_id_match:
+                    reasoning_text = " | ".join([
+                        f"{a['reasoning']}" for a in ai_analysis if 'reasoning' in a
+                    ])
+
+                    item['Fix'] = {
+                        "fix_id": fix_id,
+                        "status": "completed",
+                        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "analysis": reasoning_text
+                    }
+
+                    matched = True
+                    break
+
+            if matched:
+                with open('process_flow.json', 'w') as f:
+                    json.dump(process_log, f, indent=2)
+                print(f"📝 process_flow.json updated with fix_id: {fix_id}")
+                return True
+            else:
+                print(f"⚠️ No matching entry found in process_flow.json for err_id: {err_id}")
+                return False
+
+        except Exception as e:
+            print(f"❌ Error updating process_flow.json: {e}")
+            return False
+        
     def save_to_fix_log(self, solution, ai_analysis):
         """Save applied solution to fix_log.json with sequential fix_id (FIX-001, FIX-002, ...)"""
         try:
@@ -274,7 +316,9 @@ class AIFixAgent:
                 'ai_analysis': ai_analysis if isinstance(ai_analysis, list) else [ai_analysis],
                 'error_type': solution.get('error_type', 'unknown'),
                 'recommendations': solution.get('recommendations', ''),
-                'isPushed': False,
+                "commit_hash": "not pushed",
+                "branch": "main",
+                "git_push": "not pushed",
                 'error_push': None
             }
 
@@ -284,11 +328,11 @@ class AIFixAgent:
                 json.dump(fix_log, f, indent=2)
 
             print(f"📦 Fix saved to fix_log.json with ID: {fix_id}")
-            return True
+            return fix_id
 
         except Exception as e:
             print(f"❌ Failed to save to fix_log.json: {e}")
-            return False
+            return None
 
     def process_solutions(self):
         """Process pending solutions with AI analysis"""
@@ -376,6 +420,17 @@ class AIFixAgent:
                             clean_solution_entry(solution, fix_status='applied_auto', was_applied=True)
                             self.save_to_fix_log(solution, ai_analysis)
                             self.update_error_log_status(solution['file'], 'fixed')
+                            # Call the function to update process_flow.json
+                            fix_id = self.save_to_fix_log(solution, ai_analysis)
+                            if fix_id:
+                                self.update_process_flow_with_fix(
+                                    file_path=solution['file'],
+                                    err_id=solution['err_id'],
+                                    fix_id=fix_id,
+                                    ai_analysis=ai_analysis
+                                )
+
+
 
                         else:
                             print(f"❌ Fix application failed or backup failed")

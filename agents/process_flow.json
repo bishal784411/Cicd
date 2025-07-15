@@ -1,0 +1,31 @@
+[
+  {
+    "id": "Pro-001",
+    "filename": "Hotel-demo/index.html",
+    "error_type": "UnknownError",
+    "monitor": {
+      "error_id": "Err-001",
+      "status": "detected",
+      "time": "10:57:34 PM",
+      "error": "Missing <title> tag in head"
+    },
+    "Solution": {
+      "solution_id": "SOL-006",
+      "status": "Analyzed",
+      "time": "2025-07-15 23:32:46",
+      "analysis": "The HTML document is missing a <title> tag, which is important for SEO and accessibility.  code : <title>Your Hotel Name</title>"
+    },
+    "Fix": {
+      "fix_id": "FIX-008",
+      "status": "completed",
+      "time": "2025-07-15 23:46:22",
+      "analysis": "The proposed fix adds the missing `<title>` tag within the `<head>` section, which directly addresses the detected error. This is a standard HTML practice and does not introduce any risk of breaking existing functionality."
+    },
+    "Deploy": {
+      "fix_id": "",
+      "status": "pending",
+      "time": "",
+      "analysis": "Push from the respective fix page."
+    }
+  }
+]

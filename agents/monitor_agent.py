@@ -10,6 +10,7 @@ import re
 from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -223,6 +224,85 @@ Correction:
             })
 
         return results
+
+    def update_process_flow(self, entry_data):
+        process_file = 'process_flow.json'
+        try:
+            if os.path.exists(process_file):
+                with open(process_file, 'r') as f:
+                    process_flow = json.load(f)
+            else:
+                process_flow = []
+
+            # Generate next process ID (Pro-001, Pro-002, ...)
+            max_id = 0
+            for item in process_flow:
+                pid = item.get('id')
+                if pid and pid.startswith("Pro-"):
+                    try:
+                        num = int(pid.split('-')[1])
+                        if num > max_id:
+                            max_id = num
+                    except:
+                        continue
+            next_id = f"Pro-{max_id + 1:03d}"
+
+            # Avoid duplicate entries based on error_id + error string
+            duplicate = False
+            for item in process_flow:
+                if (
+                    item.get('monitor', {}).get('error_id') == entry_data['monitor']['error_id'] and
+                    item.get('monitor', {}).get('error') == entry_data['monitor']['error']
+                ):
+                    duplicate = True
+                    break
+            if duplicate:
+                print(f"🔁 Skipping duplicate process entry for error_id: {entry_data['monitor']['error_id']}, error: {entry_data['monitor']['error']}")
+                return
+
+            current_time = datetime.now().strftime("%I:%M:%S %p")  # e.g. "10:42:17 PM"
+
+            # Compose full entry exactly matching your desired format:
+            full_entry = {
+                "id": next_id,
+                "filename": entry_data["filename"],
+                "error_type": entry_data["error_type"],
+                "monitor": {
+                    "error_id": entry_data["monitor"]["error_id"],
+                    "status": entry_data["monitor"]["status"],
+                    "time": current_time,
+                    "error": entry_data["monitor"]["error"],     # single error string
+                },
+                "Solution": {
+                    "solution_id": "",
+                    "status": "pending",
+                    "time": "",
+                    "analysis": "Waiting for errors from Monitor Agent"
+                },
+                "Fix": {
+                    "fix_id": "",
+                    "status": "pending",
+                    "time": "",
+                    "analysis": "Awaiting solution analysis from the agent."
+                },
+                "Deploy": {
+                    "fix_id": "",
+                    "status": "pending",
+                    "time": "",
+                    "analysis": "Push from the respective fix page."
+                }
+            }
+
+            process_flow.append(full_entry)
+
+            with open(process_file, 'w') as f:
+                json.dump(process_flow, f, indent=2)
+
+            print(f"✅ Added to process_flow.json: {next_id}")
+
+        except Exception as e:
+            print(f"❌ Failed to update process_flow.json: {e}")
+
     def load_existing_error_count(self):
         try:
             if os.path.exists('error_log.json'):
@@ -299,7 +379,8 @@ Correction:
                             "error_type": ai_results[0].get("error_type", "UnknownError") if ai_results else "UnknownError",
                             "severity": "high" if "unclosed" in ' '.join(errors).lower() else "medium",
                             "pipeline_stage": "monitoring",
-                            "commit_hash": "not pushed",
+                            "commit_hash": "no hash",
+                            "git_push": "not pushed",
                             "branch": "main",
                             "ai_analysis": ai_analysis_list,
                             "fix_solution": fix_solution_list,
@@ -309,6 +390,20 @@ Correction:
                         self.error_log.append(error_entry)
                         self.save_error_log()
                         print("\nError logged for Solution Agent processing")
+                        
+                        for error in errors:
+                            process_flow_entry = {
+                                "filename": str(file_path),
+                                "error_type": error_entry["error_type"],
+                                "monitor": {
+                                    "error_id": err_id_str,
+                                    "status": "detected",
+                                    "error": error
+                                }
+                            }
+                            self.update_process_flow(process_flow_entry)
+
+
                     else:
                         for error_entry in self.error_log:
                             if error_entry['file'] == str(file_path) and error_entry['status'] == 'detected':
