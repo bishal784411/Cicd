@@ -5,7 +5,6 @@ import time
 import json
 import hashlib
 from pathlib import Path
-from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 import requests

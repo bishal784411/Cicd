@@ -5,6 +5,7 @@ error_log.json
 solutions.json
 fix_log.json
 validation_report.md
+/solution_preview
 
 # Environment files
 .env

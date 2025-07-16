@@ -214,7 +214,7 @@ time_estimate_fix: [Estimated time to fix the error by ai agent, e.g. "2 minutes
 
                     item['Solution'] = {
                         "solution_id": solution_id,
-                        "status": "Analyzed",
+                        "status": "analyzed",
                         "time": datetime.now().strftime("%I:%M:%S %p"),
                         "analysis": " | ".join(explanations)
                     }

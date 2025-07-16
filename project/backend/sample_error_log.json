@@ -1,0 +1,71 @@
+{
+  "last_updated": "2024-01-15T14:30:00.000Z",
+  "errors": [
+    {
+      "timestamp": "2024-01-15T14:25:00.000Z",
+      "file": "src/components/UserAuth.tsx",
+      "error_type": "SECURITY",
+      "line_number": 45,
+      "message": "Potential XSS vulnerability: User input not properly sanitized",
+      "ai_analysis": "The user input is being directly inserted into the DOM without sanitization. This creates a cross-site scripting (XSS) vulnerability that could allow attackers to inject malicious scripts.",
+      "severity": "critical",
+      "fix_suggestion": "Use React's built-in XSS protection or implement proper input sanitization using DOMPurify library",
+      "auto_fixable": true
+    },
+    {
+      "timestamp": "2024-01-15T14:20:00.000Z",
+      "file": "src/styles/main.css",
+      "error_type": "PERFORMANCE",
+      "line_number": 42,
+      "message": "Large CSS file causing render blocking (156KB)",
+      "ai_analysis": "The CSS file is too large and blocking the initial render. Consider splitting into critical and non-critical CSS, or implementing CSS code splitting.",
+      "severity": "high",
+      "fix_suggestion": "Split CSS into critical path CSS and lazy-load non-critical styles",
+      "auto_fixable": true
+    },
+    {
+      "timestamp": "2024-01-15T14:15:00.000Z",
+      "file": "src/api/database.js",
+      "error_type": "JS",
+      "line_number": 18,
+      "message": "Database connection timeout after 30 seconds",
+      "ai_analysis": "The database connection is timing out, likely due to network issues or database overload. Implement connection pooling and retry logic.",
+      "severity": "critical",
+      "fix_suggestion": "Implement connection pooling with retry logic and increase timeout to 60 seconds",
+      "auto_fixable": true
+    },
+    {
+      "timestamp": "2024-01-15T14:10:00.000Z",
+      "file": "config/nginx.conf",
+      "error_type": "CONFIG",
+      "line_number": 8,
+      "message": "SSL certificate expires in 7 days",
+      "ai_analysis": "The SSL certificate is approaching expiration. This will cause security warnings and potential service disruption if not renewed.",
+      "severity": "high",
+      "fix_suggestion": "Renew SSL certificate and set up automated renewal with Let's Encrypt",
+      "auto_fixable": true
+    },
+    {
+      "timestamp": "2024-01-15T14:05:00.000Z",
+      "file": "src/components/Dashboard.tsx",
+      "error_type": "PERFORMANCE",
+      "line_number": 125,
+      "message": "Memory leak detected: Event listeners not properly cleaned up",
+      "ai_analysis": "React components are not cleaning up event listeners in useEffect cleanup functions, causing memory leaks over time.",
+      "severity": "medium",
+      "fix_suggestion": "Add cleanup functions to useEffect hooks to remove event listeners",
+      "auto_fixable": true
+    },
+    {
+      "timestamp": "2024-01-15T14:00:00.000Z",
+      "file": "src/utils/validation.js",
+      "error_type": "JS",
+      "line_number": 33,
+      "message": "Deprecated API usage: String.prototype.substr() is deprecated",
+      "ai_analysis": "The substr() method is deprecated and should be replaced with substring() or slice() for better browser compatibility.",
+      "severity": "low",
+      "fix_suggestion": "Replace substr() with substring() or slice() method",
+      "auto_fixable": true
+    }
+  ]
+}
