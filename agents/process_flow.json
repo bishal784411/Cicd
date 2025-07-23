@@ -12,14 +12,14 @@
     "Solution": {
       "solution_id": "SOL-001",
       "status": "analyzed",
-      "time": "12:37:47 AM",
+      "time": "10:57:00 PM",
       "analysis": "The HTML document is missing a <title> tag, which is important for SEO and accessibility.  code : <title>Your Hotel Name</title>"
     },
     "Fix": {
-      "fix_id": "FIX-002",
+      "fix_id": "FIX-001",
       "status": "completed",
-      "time": "12:38:24 AM",
-      "analysis": "The fix adds the missing `<title>` tag to the `<head>` section, which is the correct solution to the reported error. This is a standard HTML practice and doesn't introduce any risk of breaking existing functionality."
+      "time": "11:12:16 PM",
+      "analysis": "The fix adds the missing `<title>` tag within the `<head>` section, which directly addresses the detected error. This is a standard HTML practice and does not introduce any risk of breaking existing functionality."
     },
     "Deploy": {
       "Dep_id": "Dep-001",
@@ -49,6 +49,35 @@
       "status": "completed",
       "time": "12:42:52 AM",
       "analysis": "The original code already contains the `<title>` tag within the `<head>` section. The error detection was incorrect. Applying the proposed fix (which is essentially a no-op) will not break any functionality."
+    },
+    "Deploy": {
+      "fix_id": "",
+      "status": "pending",
+      "time": "",
+      "analysis": "Push from the respective fix page."
+    }
+  },
+  {
+    "id": "Pro-003",
+    "filename": "Hotel-demo/styles.css",
+    "error_type": "SyntaxError",
+    "monitor": {
+      "error_id": "Err-003",
+      "status": "detected",
+      "time": "10:07:14 AM",
+      "error": "Missing semicolon on line 4: box-sizing: border-box"
+    },
+    "Solution": {
+      "solution_id": "",
+      "status": "pending",
+      "time": "",
+      "analysis": "Waiting for errors from Monitor Agent"
+    },
+    "Fix": {
+      "fix_id": "",
+      "status": "pending",
+      "time": "",
+      "analysis": "Awaiting solution analysis from the agent."
     },
     "Deploy": {
       "fix_id": "",

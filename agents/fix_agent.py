@@ -418,7 +418,7 @@ class AIFixAgent:
                             print(f"📋 Original backed up to: {backup_path}")
 
                             clean_solution_entry(solution, fix_status='applied_auto', was_applied=True)
-                            self.save_to_fix_log(solution, ai_analysis)
+                            # self.save_to_fix_log(solution, ai_analysis)
                             self.update_error_log_status(solution['file'], 'fixed')
                             # Call the function to update process_flow.json
                             fix_id = self.save_to_fix_log(solution, ai_analysis)

@@ -764,7 +764,79 @@ def stream_network_status(request: Request):
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+agent_heartbeat = {}
 
+
+
+@api_router.get("/agents/list")
+def list_agents():
+    now = datetime.now()
+
+    # Load logs
+    def load_json(path):
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+
+    error_log = load_json(ERROR_LOG_PATH)
+    solution_log = load_json(SOLUTION_LOG_PATH)
+    fix_log = load_json(FIX_LOG_PATH)
+
+    # total_detections = len(error_log)
+    monitor_detections = len(error_log)
+    solution_detections = len(solution_log)
+    fix_detections = len(fix_log)
+
+    # Solution stats
+    solutions_provided = len([s for s in solution_log if s.get("status") in ["Analyzed", "Provided"]])
+    solutions_pending = solution_detections - solutions_provided
+
+    # Fix stats
+    fixes_applied = len([f for f in fix_log if f.get("status") == "applied"])
+    fixes_pending = fix_detections - fixes_applied
+
+    def agent_info(name):
+        proc = launcher.processes.get(name)
+        info = {
+            "status": "stopped",
+            "last_heartbeat": agent_heartbeat.get(name),
+            "uptime": None,
+            "total_detections": monitor_detections
+        }
+
+        if proc and proc.poll() is None:
+            try:
+                p = psutil.Process(proc.pid)
+                uptime = now - datetime.fromtimestamp(p.create_time())
+                info["status"] = "running"
+                info["last_heartbeat"] = now.isoformat()
+                info["uptime"] = str(uptime).split(".")[0]
+                agent_heartbeat[name] = info["last_heartbeat"]
+            except Exception:
+                pass
+
+        return info
+
+    response = {
+        "agents": {
+            "monitor": agent_info("monitor"),
+            "solution": {
+                **agent_info("solution"),
+                 "total_detections": solution_detections,
+                "solutions_provided": solutions_provided,
+                "solutions_pending": solutions_pending
+            },
+            "fix": {
+                **agent_info("fix"),
+                "total_detections": fix_detections,
+                "fixes_applied": fixes_applied,
+                "fixes_pending": fixes_pending
+            }
+        }
+    }
+
+    return JSONResponse(content=response)
 
 # ---------- Include Router ----------
 app.include_router(api_router, prefix="/api")
