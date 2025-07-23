@@ -187,7 +187,7 @@ def push_to_github_stream():
 
         # Run git add
         yield f"$ git add ."
-        for line in run_command_stream(["git", "add", "."]):
+        for line in run_command_stream(["git", "add", "-A"]):
             yield line
 
         # Run git commit

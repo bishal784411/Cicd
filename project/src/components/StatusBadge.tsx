@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckCircle, AlertTriangle, XCircle, Clock, Wrench, Shield } from 'lucide-react';
 
 interface StatusBadgeProps {
-  status: 'healthy' | 'detected' | 'warning' | 'critical' | 'fixing' | 'fixed' | 'unknown';
+  status: 'healthy' | 'detected' | 'warning' | 'critical' | 'fixing' | 'fixed' | 'unknown' | 'Solved';
   errorCount?: number;
   criticalCount?: number;
 }
@@ -46,11 +46,18 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, errorCount = 0
           text: 'Fixed',
           className: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
         };
+      
+      case 'Solved':
+        return {
+          icon: Shield,
+          text: 'Fixed',
+          className: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+        };
       case 'unknown':
       default:
         return {
           icon: Clock,
-          text: 'Scanning...',
+          text: 'Detected',
           className: 'bg-gray-500/20 text-gray-400 border-gray-500/30'
         };
     }

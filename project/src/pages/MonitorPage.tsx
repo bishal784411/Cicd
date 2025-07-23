@@ -35,6 +35,7 @@ export const MonitorPage: React.FC = () => {
     triggerFix
   } = useMonitoring(isMonitoring ? 3000 : 0); // Poll only when monitoring
 
+  console.log("Here: ", data)
   // Priority map for sorting
   const priority: Record<string, number> = {
     detected: 1,
@@ -192,7 +193,7 @@ export const MonitorPage: React.FC = () => {
 
         {/* Terminal Window */}
         {showTerminal && (
-          <div className="bg-black rounded-lg border border-gray-600 overflow-hidden resize-y min-h-[200px] max-h-[80vh]">
+          <div className="bg-black rounded-lg border border-gray-600 overflow-hidden resize-y min-h-[200px] max-h-[80vh] mt-3">
             {/* Terminal Header */}
             <div className="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-600 cursor-default">
               <div className="flex items-center space-x-2">

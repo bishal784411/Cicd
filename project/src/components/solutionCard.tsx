@@ -73,7 +73,7 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({ solution, onTriggerE
               className="flex items-center space-x-1 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors"
             >
               <Wrench className="h-3 w-3" />
-              <span>Run</span>
+              <span>Fix</span>
             </button>
           )}
         </div>

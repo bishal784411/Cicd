@@ -13,3 +13,22 @@ export const getProcessFlowData = async () => {
     return [];
   }
 };
+
+
+export const streamGithubPushLogs = (
+  onMessage: (data: string) => void,
+  onError?: (error: Event) => void
+): EventSource => {
+  const eventSource = new EventSource(`${API_BASE_URL}/github/push/stream`);
+
+  eventSource.onmessage = (event) => {
+    onMessage(event.data);
+  };
+
+  eventSource.onerror = (error) => {
+    if (onError) onError(error);
+    eventSource.close();
+  };
+
+  return eventSource;
+};

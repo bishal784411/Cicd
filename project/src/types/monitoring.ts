@@ -78,6 +78,7 @@ export interface FixMonitorData {
 }
 
 export interface FileStatus {
+  severity: "fixed" | "healthy" | "detected" | "warning" | "critical" | "fixing" | "unknown" | "Solved";
   file: string;
   status: 'healthy' | 'warning' | 'critical' | 'fixing' | 'fixed' | 'unknown';
   last_checked: string;

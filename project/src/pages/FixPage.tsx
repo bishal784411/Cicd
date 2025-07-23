@@ -17,13 +17,7 @@ import { useFix } from '../hooks/useFix';
 import { FileStatusFix } from '../types/monitoring';
 import { createLogStream } from '../api/monitoring';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-
-
-interface Stage {
-  status: 'pending' | 'analyzed' | 'detected' | 'completed' | 'deployed';
-  timestamp?: string;
-  details: string;
-}
+import {  startfix, stopfix } from '../api/fix';
 
 
 export const FixPage: React.FC = () => {
@@ -42,7 +36,8 @@ export const FixPage: React.FC = () => {
 
 
 
-  const handleStartMonitor = () => {
+  const handleStartMonitor = async () => {
+    await startfix();
     setIsMonitoring(true);
     setShowTerminal(true);
     manualRefresh();
@@ -54,7 +49,8 @@ export const FixPage: React.FC = () => {
     setEventSource(stream);
   };
 
-  const handleStopMonitor = () => {
+  const handleStopMonitor = async () => {
+    await stopfix();
     setIsMonitoring(false);
 
     if (eventSource) {
@@ -69,6 +65,8 @@ export const FixPage: React.FC = () => {
       ''
     ]);
   };
+
+  
 
   const handleClearTerminal = () => {
     setTerminalContent([]);
@@ -200,7 +198,7 @@ export const FixPage: React.FC = () => {
                     </div>
                   ))}
                   {isMonitoring && (
-                    <div className="text-green-400 animate-pulse">$ Fix monitoring active...</div>
+                    <div className="text-green-400 animate-pulse">$ Fix monitoring is Running...</div>
                   )}
                 </div>
               )}

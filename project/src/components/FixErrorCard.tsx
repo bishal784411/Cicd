@@ -100,12 +100,7 @@ export const FixErrorCard: React.FC<FixErrorCardProps> = ({ fix, onTriggerFix, f
                         <span>{new Date(fix.timestamp).toLocaleTimeString()}</span>
                     </div>
 
-                    {fix.fix_applied ? (
-                        <div className="flex items-center space-x-1 text-xs text-green-400">
-                            <CheckCircle className="h-3 w-3" />
-                            <span>Fixed</span>
-                        </div>
-                    ) : fix.auto_fixable && onTriggerFix ? (
+                    {fix.auto_fixable && onTriggerFix ? (
                         <button
                             onClick={() => onTriggerFix(fixIndex)}
                             className="flex items-center space-x-1 px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded transition-colors"
@@ -131,28 +126,7 @@ export const FixErrorCard: React.FC<FixErrorCardProps> = ({ fix, onTriggerFix, f
                 </div>
 
                 {fix.ai_analysis && fix.ai_analysis.length > 0 && (
-                    // <div>
-                    //     <div className="flex items-center space-x-2 mb-2">
-                    //         <Brain className="h-4 w-4 text-purple-400" />
-                    //         <span className="text-sm font-medium text-gray-300">AI Analysis</span>
-                    //     </div>
-                    //     <div className="bg-purple-500/10 border border-purple-500/20 rounded p-3 text-sm text-purple-200">
-                    //         {Array.isArray(fix.ai_analysis) && fix.ai_analysis.length > 0 && (
-                    //             <div>
-                    //                 {fix.ai_analysis.map((a, i) => (
-                    //                     <div key={i} className="mb-2">
-                    //                         <strong>Decision:</strong> {a.decision}<br />
-                    //                         <strong>Risk Level:</strong> {a.risk_level}<br />
-                    //                         <strong>Confidence:</strong> {a.confidence}%<br />
-                    //                         <strong>Reasoning:</strong> {a.reasoning}<br />
-                    //                         <strong>Safety Notes:</strong> {a.safety_notes}<br />
-                    //                         <strong>Related Error:</strong> {a.related_error}
-                    //                     </div>
-                    //                 ))}
-                    //             </div>
-                    //         )}
-                    //     </div>
-                    // </div>
+
                     <div>
                         <div className="flex items-center space-x-2 mb-2">
                             <Brain className="h-4 w-4 text-purple-400" />
