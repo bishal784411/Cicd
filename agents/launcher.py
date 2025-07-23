@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import time, shlex
 import threading
 import requests, re
+from typing import Generator
+
 import uvicorn
 import psutil
 from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks, Query, Request
@@ -147,6 +149,24 @@ def push_to_github():
         print(f"❌ GitHub push failed: {error_message}")
         return False, error_message
     
+    
+def run_command_stream(command):
+    """Run a shell command and yield its output line by line."""
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1,
+        universal_newlines=True,
+    )
+    for line in process.stdout:
+        yield line.rstrip()
+    process.stdout.close()
+    return_code = process.wait()
+    if return_code:
+        raise subprocess.CalledProcessError(return_code, command)
+
 def push_to_github_stream():
     try:
         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
@@ -165,30 +185,35 @@ def push_to_github_stream():
         commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
         yield f"🔧 Preparing to commit: {commit_message}"
 
-        subprocess.run(["git", "add", "."], check=True)
-        yield "📦 Added files."
+        # Run git add
+        yield f"$ git add ."
+        for line in run_command_stream(["git", "add", "."]):
+            yield line
 
-        subprocess.run(["git", "commit", "-m", commit_message], check=True)
-        yield "✍️ Committed changes."
+        # Run git commit
+        yield f"$ git commit -m \"{commit_message}\""
+        for line in run_command_stream(["git", "commit", "-m", commit_message]):
+            yield line
 
-        subprocess.run(["git", "push", "-u", "origin", "master"], check=True)
-        yield "🚀 Pushed to GitHub."
+        # Run git push
+        yield "$ git push -u origin master"
+        for line in run_command_stream(["git", "push", "-u", "origin", "master"]):
+            yield line
 
-        # ✅ Update fix_log.json as pushed
+        # Update fix_log.json as pushed
         for entry in fix_log:
             if entry.get("err_id") == err_id and entry.get("file") == file:
                 entry["isPushed"] = True
                 entry["error_push"] = None
 
-        with FIX_LOG_PATH.open("w") as f:
+        with FIX_LOG_PATH.open("w", encoding="utf-8") as f:
             json.dump(fix_log, f, indent=2)
         yield "💾 fix_log.json marked as pushed."
 
-        # ✅ Get latest Git metadata
+        # Get latest Git metadata
         commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
         branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
 
-        # ✅ Helper to update individual log files
         def update_commit_info_in_file(filepath):
             if not os.path.exists(filepath):
                 return
@@ -211,13 +236,12 @@ def push_to_github_stream():
             update_commit_info_in_file(path)
             yield f"🔄 Updated {path} with commit metadata."
 
-        # ✅ Update process_flow.json -> Deploy block
+        # Update process_flow.json -> Deploy block
         if flOW_LOG_PATH.exists():
             with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
                 flow_data = json.load(f)
 
             existing_ids = []
-
             for item in flow_data:
                 dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
                 if dep_id and "-" in dep_id:
@@ -237,7 +261,7 @@ def push_to_github_stream():
                         "analysis": commit_hash
                     }
 
-            with flOW_LOG_PATH.open("w") as f:
+            with flOW_LOG_PATH.open("w", encoding="utf-8") as f:
                 json.dump(flow_data, f, indent=2)
             yield "📦 process_flow.json updated with deployment info."
 
@@ -247,14 +271,124 @@ def push_to_github_stream():
         error_msg = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
         yield f"❌ GitHub push failed: {error_msg}"
 
+        # Update fix_log.json with push error info
         for entry in fix_log:
             if entry.get("err_id") == err_id and entry.get("file") == file:
                 entry["isPushed"] = False
                 entry["error_push"] = error_msg
 
-        with FIX_LOG_PATH.open("w") as f: 
+        with FIX_LOG_PATH.open("w", encoding="utf-8") as f:
             json.dump(fix_log, f, indent=2)
         yield "💾 fix_log.json updated with push error."
+        
+# def push_to_github_stream():
+#     try:
+#         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
+#             fix_log = json.load(f)
+
+#         pending_entries = [entry for entry in reversed(fix_log) if not entry.get("isPushed")]
+#         if not pending_entries:
+#             yield "⚠️ No unpushed entries found in fix_log.json"
+#             return
+
+#         latest_entry = pending_entries[0]
+#         err_id = latest_entry.get("err_id")
+#         file = latest_entry.get("file")
+#         fix_id = latest_entry.get("fix_id")
+
+#         commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
+#         yield f"🔧 Preparing to commit: {commit_message}"
+
+#         subprocess.run(["git", "add", "."], check=True)
+#         yield "📦 Added files."
+
+#         subprocess.run(["git", "commit", "-m", commit_message], check=True)
+#         yield "✍️ Committed changes."
+
+#         subprocess.run(["git", "push", "-u", "origin", "master"], check=True)
+#         yield "🚀 Pushed to GitHub."
+
+#         # ✅ Update fix_log.json as pushed
+#         for entry in fix_log:
+#             if entry.get("err_id") == err_id and entry.get("file") == file:
+#                 entry["isPushed"] = True
+#                 entry["error_push"] = None
+
+#         with FIX_LOG_PATH.open("w") as f:
+#             json.dump(fix_log, f, indent=2)
+#         yield "💾 fix_log.json marked as pushed."
+
+#         # ✅ Get latest Git metadata
+#         commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+#         branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
+
+#         # ✅ Helper to update individual log files
+#         def update_commit_info_in_file(filepath):
+#             if not os.path.exists(filepath):
+#                 return
+#             with open(filepath, "r", encoding="utf-8") as f:
+#                 data = json.load(f)
+
+#             updated = False
+#             for item in data:
+#                 if item.get("err_id") == err_id and item.get("file") == file:
+#                     item["commit_hash"] = commit_hash
+#                     item["git_push"] = "pushed"
+#                     item["branch"] = branch
+#                     updated = True
+
+#             if updated:
+#                 with open(filepath, "w", encoding="utf-8") as f:
+#                     json.dump(data, f, indent=2)
+
+#         for path in ["error_log.json", "solutions.json", "fix_log.json"]:
+#             update_commit_info_in_file(path)
+#             yield f"🔄 Updated {path} with commit metadata."
+
+#         # ✅ Update process_flow.json -> Deploy block
+#         if flOW_LOG_PATH.exists():
+#             with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
+#                 flow_data = json.load(f)
+
+#             existing_ids = []
+
+#             for item in flow_data:
+#                 dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
+#                 if dep_id and "-" in dep_id:
+#                     try:
+#                         existing_ids.append(int(dep_id.split("-")[1]))
+#                     except (IndexError, ValueError):
+#                         continue
+
+#             next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
+
+#             for item in flow_data:
+#                 if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
+#                     item["Deploy"] = {
+#                         "Dep_id": next_dep_id,
+#                         "status": "deployed",
+#                         "time": datetime.now().strftime("%I:%M:%S %p"),
+#                         "analysis": commit_hash
+#                     }
+
+#             with flOW_LOG_PATH.open("w") as f:
+#                 json.dump(flow_data, f, indent=2)
+#             yield "📦 process_flow.json updated with deployment info."
+
+#         yield "✅ All logs updated successfully."
+
+#     except subprocess.CalledProcessError as e:
+#         error_msg = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
+#         yield f"❌ GitHub push failed: {error_msg}"
+
+#         for entry in fix_log:
+#             if entry.get("err_id") == err_id and entry.get("file") == file:
+#                 entry["isPushed"] = False
+#                 entry["error_push"] = error_msg
+
+#         with FIX_LOG_PATH.open("w") as f: 
+#             json.dump(fix_log, f, indent=2)
+#         yield "💾 fix_log.json updated with push error."
 
 
 # def push_to_github_stream():
@@ -504,13 +638,20 @@ def startup_event():
         print("System requirements not met.")
 
 
+# @api_router.get("/github/push/stream")
+# def stream_push_to_github():
+#     def event_generator():
+#         for log_line in push_to_github_stream():
+#             yield f"data: {log_line}\n\n"
+#     return StreamingResponse(event_generator(), media_type="text/event-stream")
+
 @api_router.get("/github/push/stream")
-def stream_push_to_github():
-    def event_generator():
-        for log_line in push_to_github():
+def stream_push_to_github() -> StreamingResponse:
+    def event_generator() -> Generator[str, None, None]:
+        for log_line in push_to_github_stream():
+            # SSE format: "data: <message>\n\n"
             yield f"data: {log_line}\n\n"
     return StreamingResponse(event_generator(), media_type="text/event-stream")
-
 
 # ---------- Utility Routes ----------
 @api_router.get("/network/check")
