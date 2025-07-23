@@ -147,116 +147,6 @@ def push_to_github():
         print(f"❌ GitHub push failed: {error_message}")
         return False, error_message
     
-# def push_to_github_stream():
-#     try:
-#         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
-#             fix_log = json.load(f)
-
-#         pending_entries = [entry for entry in reversed(fix_log) if not entry.get("isPushed")]
-#         if not pending_entries:
-#             yield "⚠️ No unpushed entries found in fix_log.json"
-#             return
-
-#         latest_entry = pending_entries[0]
-#         err_id = latest_entry.get("err_id")
-#         file = latest_entry.get("file")
-#         fix_id = latest_entry.get("fix_id")
-
-#         commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
-#         yield f"🔧 Preparing to commit: {commit_message}"
-
-#         subprocess.run(["git", "add", "."], check=True)
-#         yield "📦 Added files."
-
-#         subprocess.run(["git", "commit", "-m", commit_message], check=True)
-#         yield "✍️ Committed changes."
-
-#         subprocess.run(["git", "push"], check=True)
-#         yield "🚀 Pushed to GitHub."
-
-#         # ✅ Update fix_log.json as pushed
-#         for entry in fix_log:
-#             if entry.get("err_id") == err_id and entry.get("file") == file:
-#                 entry["isPushed"] = True
-#                 entry["error_push"] = None
-
-#         with FIX_LOG_PATH.open("w") as f:
-#             json.dump(fix_log, f, indent=2)
-#         yield "💾 fix_log.json marked as pushed."
-
-#         # ✅ Get latest Git metadata
-#         commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
-#         branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
-
-#         # ✅ Helper to update individual log files
-#         def update_commit_info_in_file(filepath):
-#             if not os.path.exists(filepath):
-#                 return
-#             with open(filepath, "r", encoding="utf-8") as f:
-#                 data = json.load(f)
-
-#             updated = False
-#             for item in data:
-#                 if item.get("err_id") == err_id and item.get("file") == file:
-#                     item["commit_hash"] = commit_hash
-#                     item["git_push"] = "pushed"
-#                     item["branch"] = branch
-#                     updated = True
-
-#             if updated:
-#                 with open(filepath, "w", encoding="utf-8") as f:
-#                     json.dump(data, f, indent=2)
-
-#         for path in ["error_log.json", "solutions.json", "fix_log.json"]:
-#             update_commit_info_in_file(path)
-#             yield f"🔄 Updated {path} with commit metadata."
-
-#         # ✅ Update process_flow.json -> Deploy block
-#         if flOW_LOG_PATH.exists():
-#             with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
-#                 flow_data = json.load(f)
-
-#             existing_ids = []
-
-#             for item in flow_data:
-#                 dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
-#                 if dep_id and "-" in dep_id:
-#                     try:
-#                         existing_ids.append(int(dep_id.split("-")[1]))
-#                     except (IndexError, ValueError):
-#                         continue
-
-#             next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
-
-#             for item in flow_data:
-#                 if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
-#                     item["Deploy"] = {
-#                         "Dep_id": next_dep_id,
-#                         "status": "deployed",
-#                         "time": datetime.now().strftime("%I:%M:%S %p"),
-#                         "analysis": commit_hash
-#                     }
-
-#             with flOW_LOG_PATH.open("w") as f:
-#                 json.dump(flow_data, f, indent=2)
-#             yield "📦 process_flow.json updated with deployment info."
-
-#         yield "✅ All logs updated successfully."
-
-#     except subprocess.CalledProcessError as e:
-#         error_msg = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
-#         yield f"❌ GitHub push failed: {error_msg}"
-
-#         for entry in fix_log:
-#             if entry.get("err_id") == err_id and entry.get("file") == file:
-#                 entry["isPushed"] = False
-#                 entry["error_push"] = error_msg
-
-#         with FIX_LOG_PATH.open("w") as f: 
-#             json.dump(fix_log, f, indent=2)
-#         yield "💾 fix_log.json updated with push error."
-
-
 def push_to_github_stream():
     try:
         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
@@ -275,86 +165,14 @@ def push_to_github_stream():
         commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
         yield f"🔧 Preparing to commit: {commit_message}"
 
-        # Check git status first
-        try:
-            result = subprocess.run(["git", "status", "--porcelain"], 
-                                  capture_output=True, text=True, check=True)
-            if not result.stdout.strip():
-                yield "ℹ️ No changes to commit. Repository is already up to date."
-                # Still mark as pushed since there's nothing to push
-                for entry in fix_log:
-                    if entry.get("err_id") == err_id and entry.get("file") == file:
-                        entry["isPushed"] = True
-                        entry["error_push"] = None
-                
-                with FIX_LOG_PATH.open("w") as f:
-                    json.dump(fix_log, f, indent=2)
-                yield "✅ Entry marked as pushed (no changes needed)"
-                return
-            else:
-                yield f"📋 Changes detected: {len(result.stdout.strip().split(chr(10)))} files modified"
-        except subprocess.CalledProcessError as e:
-            yield f"⚠️ Git status check failed: {e}"
+        subprocess.run(["git", "add", "."], check=True)
+        yield "📦 Added files."
 
-        # Add files
-        try:
-            subprocess.run(["git", "add", "."], check=True, capture_output=True)
-            yield "📦 Added files."
-        except subprocess.CalledProcessError as e:
-            yield f"❌ Git add failed: {e}"
-            raise
+        subprocess.run(["git", "commit", "-m", commit_message], check=True)
+        yield "✍️ Committed changes."
 
-        # Check if we have git user configured
-        try:
-            subprocess.run(["git", "config", "user.name"], check=True, capture_output=True)
-            subprocess.run(["git", "config", "user.email"], check=True, capture_output=True)
-        except subprocess.CalledProcessError:
-            yield "⚙️ Configuring git user..."
-            try:
-                subprocess.run(["git", "config", "user.name", "AutoFix Bot"], check=True)
-                subprocess.run(["git", "config", "user.email", "autofix@example.com"], check=True)
-                yield "✅ Git user configured"
-            except subprocess.CalledProcessError as e:
-                yield f"❌ Failed to configure git user: {e}"
-
-        # Commit changes
-        try:
-            result = subprocess.run(["git", "commit", "-m", commit_message], 
-                                  check=True, capture_output=True, text=True)
-            yield "✍️ Committed changes."
-            if result.stdout:
-                yield f"📝 {result.stdout.strip()}"
-        except subprocess.CalledProcessError as e:
-            if e.returncode == 1:
-                # Check if it's because there's nothing to commit
-                if "nothing to commit" in (e.stdout or "") or "nothing to commit" in (e.stderr or ""):
-                    yield "ℹ️ Nothing to commit, working tree clean."
-                    # Mark as pushed since there's nothing to push
-                    for entry in fix_log:
-                        if entry.get("err_id") == err_id and entry.get("file") == file:
-                            entry["isPushed"] = True
-                            entry["error_push"] = None
-                    
-                    with FIX_LOG_PATH.open("w") as f:
-                        json.dump(fix_log, f, indent=2)
-                    yield "✅ Entry marked as pushed (nothing to commit)"
-                    return
-                else:
-                    yield f"❌ Commit failed: {e.stderr or e.stdout or str(e)}"
-                    raise
-            else:
-                yield f"❌ Commit failed with exit code {e.returncode}: {e.stderr or e.stdout or str(e)}"
-                raise
-
-        # Push to GitHub
-        try:
-            result = subprocess.run(["git", "push"], check=True, capture_output=True, text=True)
-            yield "🚀 Pushed to GitHub."
-            if result.stdout:
-                yield f"📤 {result.stdout.strip()}"
-        except subprocess.CalledProcessError as e:
-            yield f"❌ Push failed: {e.stderr or e.stdout or str(e)}"
-            raise
+        subprocess.run(["git", "push", "-u", "origin", "master"], check=True)
+        yield "🚀 Pushed to GitHub."
 
         # ✅ Update fix_log.json as pushed
         for entry in fix_log:
@@ -367,107 +185,289 @@ def push_to_github_stream():
         yield "💾 fix_log.json marked as pushed."
 
         # ✅ Get latest Git metadata
-        try:
-            commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
-            branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
-            yield f"🔗 Commit hash: {commit_hash[:8]}"
-            yield f"🌿 Branch: {branch}"
-        except subprocess.CalledProcessError as e:
-            yield f"⚠️ Could not get git metadata: {e}"
-            commit_hash = "unknown"
-            branch = "unknown"
+        commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+        branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
 
         # ✅ Helper to update individual log files
         def update_commit_info_in_file(filepath):
             if not os.path.exists(filepath):
-                return False
-            try:
-                with open(filepath, "r", encoding="utf-8") as f:
-                    data = json.load(f)
+                return
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
 
-                updated = False
-                for item in data:
-                    if item.get("err_id") == err_id and item.get("file") == file:
-                        item["commit_hash"] = commit_hash
-                        item["git_push"] = "pushed"
-                        item["branch"] = branch
-                        updated = True
+            updated = False
+            for item in data:
+                if item.get("err_id") == err_id and item.get("file") == file:
+                    item["commit_hash"] = commit_hash
+                    item["git_push"] = "pushed"
+                    item["branch"] = branch
+                    updated = True
 
-                if updated:
-                    with open(filepath, "w", encoding="utf-8") as f:
-                        json.dump(data, f, indent=2)
-                return updated
-            except Exception as e:
-                yield f"⚠️ Error updating {filepath}: {e}"
-                return False
+            if updated:
+                with open(filepath, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
 
         for path in ["error_log.json", "solutions.json", "fix_log.json"]:
-            if update_commit_info_in_file(path):
-                yield f"🔄 Updated {path} with commit metadata."
-            else:
-                yield f"⚠️ Could not update {path}"
+            update_commit_info_in_file(path)
+            yield f"🔄 Updated {path} with commit metadata."
 
         # ✅ Update process_flow.json -> Deploy block
-        try:
-            if flOW_LOG_PATH.exists():
-                with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
-                    flow_data = json.load(f)
+        if flOW_LOG_PATH.exists():
+            with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
+                flow_data = json.load(f)
 
-                existing_ids = []
+            existing_ids = []
 
-                for item in flow_data:
-                    dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
-                    if dep_id and "-" in dep_id:
-                        try:
-                            existing_ids.append(int(dep_id.split("-")[1]))
-                        except (IndexError, ValueError):
-                            continue
+            for item in flow_data:
+                dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
+                if dep_id and "-" in dep_id:
+                    try:
+                        existing_ids.append(int(dep_id.split("-")[1]))
+                    except (IndexError, ValueError):
+                        continue
 
-                next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
+            next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
 
-                for item in flow_data:
-                    if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
-                        item["Deploy"] = {
-                            "Dep_id": next_dep_id,
-                            "status": "deployed",
-                            "time": datetime.now().strftime("%I:%M:%S %p"),
-                            "analysis": commit_hash
-                        }
+            for item in flow_data:
+                if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
+                    item["Deploy"] = {
+                        "Dep_id": next_dep_id,
+                        "status": "deployed",
+                        "time": datetime.now().strftime("%I:%M:%S %p"),
+                        "analysis": commit_hash
+                    }
 
-                with flOW_LOG_PATH.open("w") as f:
-                    json.dump(flow_data, f, indent=2)
-                yield "📦 process_flow.json updated with deployment info."
-            else:
-                yield "⚠️ process_flow.json not found"
-        except Exception as e:
-            yield f"⚠️ Error updating process_flow.json: {e}"
+            with flOW_LOG_PATH.open("w") as f:
+                json.dump(flow_data, f, indent=2)
+            yield "📦 process_flow.json updated with deployment info."
 
         yield "✅ All logs updated successfully."
 
     except subprocess.CalledProcessError as e:
-        error_msg = f"Command failed with exit code {e.returncode}"
-        if e.stderr:
-            error_msg += f": {e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr}"
-        elif e.stdout:
-            error_msg += f": {e.stdout.decode() if isinstance(e.stdout, bytes) else e.stdout}"
-        
+        error_msg = e.stderr if hasattr(e, 'stderr') and e.stderr else str(e)
         yield f"❌ GitHub push failed: {error_msg}"
 
-        # Update fix_log with error
-        try:
-            for entry in fix_log:
-                if entry.get("err_id") == err_id and entry.get("file") == file:
-                    entry["isPushed"] = False
-                    entry["error_push"] = error_msg
+        for entry in fix_log:
+            if entry.get("err_id") == err_id and entry.get("file") == file:
+                entry["isPushed"] = False
+                entry["error_push"] = error_msg
 
-            with FIX_LOG_PATH.open("w") as f: 
-                json.dump(fix_log, f, indent=2)
-            yield "💾 fix_log.json updated with push error."
-        except Exception as update_error:
-            yield f"❌ Could not update fix_log.json: {update_error}"
+        with FIX_LOG_PATH.open("w") as f: 
+            json.dump(fix_log, f, indent=2)
+        yield "💾 fix_log.json updated with push error."
 
-    except Exception as e:
-        yield f"❌ Unexpected error: {str(e)}"
+
+# def push_to_github_stream():
+#     try:
+#         with FIX_LOG_PATH.open("r", encoding="utf-8") as f:
+#             fix_log = json.load(f)
+
+#         pending_entries = [entry for entry in reversed(fix_log) if not entry.get("isPushed")]
+#         if not pending_entries:
+#             yield "⚠️ No unpushed entries found in fix_log.json"
+#             return
+
+#         latest_entry = pending_entries[0]
+#         err_id = latest_entry.get("err_id")
+#         file = latest_entry.get("file")
+#         fix_id = latest_entry.get("fix_id")
+
+#         commit_message = f"Fix applied to {file} at {latest_entry['applied_at']}"
+#         yield f"🔧 Preparing to commit: {commit_message}"
+
+#         # Check git status first
+#         try:
+#             result = subprocess.run(["git", "status", "--porcelain"], 
+#                                   capture_output=True, text=True, check=True)
+#             if not result.stdout.strip():
+#                 yield "ℹ️ No changes to commit. Repository is already up to date."
+#                 # Still mark as pushed since there's nothing to push
+#                 for entry in fix_log:
+#                     if entry.get("err_id") == err_id and entry.get("file") == file:
+#                         entry["isPushed"] = True
+#                         entry["error_push"] = None
+                
+#                 with FIX_LOG_PATH.open("w") as f:
+#                     json.dump(fix_log, f, indent=2)
+#                 yield "✅ Entry marked as pushed (no changes needed)"
+#                 return
+#             else:
+#                 yield f"📋 Changes detected: {len(result.stdout.strip().split(chr(10)))} files modified"
+#         except subprocess.CalledProcessError as e:
+#             yield f"⚠️ Git status check failed: {e}"
+
+#         # Add files
+#         try:
+#             subprocess.run(["git", "add", "."], check=True, capture_output=True)
+#             yield "📦 Added files."
+#         except subprocess.CalledProcessError as e:
+#             yield f"❌ Git add failed: {e}"
+#             raise
+
+#         # Check if we have git user configured
+#         try:
+#             subprocess.run(["git", "config", "user.name"], check=True, capture_output=True)
+#             subprocess.run(["git", "config", "user.email"], check=True, capture_output=True)
+#         except subprocess.CalledProcessError:
+#             yield "⚙️ Configuring git user..."
+#             try:
+#                 subprocess.run(["git", "config", "user.name", "AutoFix Bot"], check=True)
+#                 subprocess.run(["git", "config", "user.email", "autofix@example.com"], check=True)
+#                 yield "✅ Git user configured"
+#             except subprocess.CalledProcessError as e:
+#                 yield f"❌ Failed to configure git user: {e}"
+
+#         # Commit changes
+#         try:
+#             result = subprocess.run(["git", "commit", "-m", commit_message], 
+#                                   check=True, capture_output=True, text=True)
+#             yield "✍️ Committed changes."
+#             if result.stdout:
+#                 yield f"📝 {result.stdout.strip()}"
+#         except subprocess.CalledProcessError as e:
+#             if e.returncode == 1:
+#                 # Check if it's because there's nothing to commit
+#                 if "nothing to commit" in (e.stdout or "") or "nothing to commit" in (e.stderr or ""):
+#                     yield "ℹ️ Nothing to commit, working tree clean."
+#                     # Mark as pushed since there's nothing to push
+#                     for entry in fix_log:
+#                         if entry.get("err_id") == err_id and entry.get("file") == file:
+#                             entry["isPushed"] = True
+#                             entry["error_push"] = None
+                    
+#                     with FIX_LOG_PATH.open("w") as f:
+#                         json.dump(fix_log, f, indent=2)
+#                     yield "✅ Entry marked as pushed (nothing to commit)"
+#                     return
+#                 else:
+#                     yield f"❌ Commit failed: {e.stderr or e.stdout or str(e)}"
+#                     raise
+#             else:
+#                 yield f"❌ Commit failed with exit code {e.returncode}: {e.stderr or e.stdout or str(e)}"
+#                 raise
+
+#         # Push to GitHub
+#         try:
+#             result = subprocess.run(["git", "push"], check=True, capture_output=True, text=True)
+#             yield "🚀 Pushed to GitHub."
+#             if result.stdout:
+#                 yield f"📤 {result.stdout.strip()}"
+#         except subprocess.CalledProcessError as e:
+#             yield f"❌ Push failed: {e.stderr or e.stdout or str(e)}"
+#             raise
+
+#         # ✅ Update fix_log.json as pushed
+#         for entry in fix_log:
+#             if entry.get("err_id") == err_id and entry.get("file") == file:
+#                 entry["isPushed"] = True
+#                 entry["error_push"] = None
+
+#         with FIX_LOG_PATH.open("w") as f:
+#             json.dump(fix_log, f, indent=2)
+#         yield "💾 fix_log.json marked as pushed."
+
+#         # ✅ Get latest Git metadata
+#         try:
+#             commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+#             branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
+#             yield f"🔗 Commit hash: {commit_hash[:8]}"
+#             yield f"🌿 Branch: {branch}"
+#         except subprocess.CalledProcessError as e:
+#             yield f"⚠️ Could not get git metadata: {e}"
+#             commit_hash = "unknown"
+#             branch = "unknown"
+
+#         # ✅ Helper to update individual log files
+#         def update_commit_info_in_file(filepath):
+#             if not os.path.exists(filepath):
+#                 return False
+#             try:
+#                 with open(filepath, "r", encoding="utf-8") as f:
+#                     data = json.load(f)
+
+#                 updated = False
+#                 for item in data:
+#                     if item.get("err_id") == err_id and item.get("file") == file:
+#                         item["commit_hash"] = commit_hash
+#                         item["git_push"] = "pushed"
+#                         item["branch"] = branch
+#                         updated = True
+
+#                 if updated:
+#                     with open(filepath, "w", encoding="utf-8") as f:
+#                         json.dump(data, f, indent=2)
+#                 return updated
+#             except Exception as e:
+#                 yield f"⚠️ Error updating {filepath}: {e}"
+#                 return False
+
+#         for path in ["error_log.json", "solutions.json", "fix_log.json"]:
+#             if update_commit_info_in_file(path):
+#                 yield f"🔄 Updated {path} with commit metadata."
+#             else:
+#                 yield f"⚠️ Could not update {path}"
+
+#         # ✅ Update process_flow.json -> Deploy block
+#         try:
+#             if flOW_LOG_PATH.exists():
+#                 with flOW_LOG_PATH.open("r", encoding="utf-8") as f:
+#                     flow_data = json.load(f)
+
+#                 existing_ids = []
+
+#                 for item in flow_data:
+#                     dep_id = item.get("Deploy", {}).get("Dep_id", "Dep-000")
+#                     if dep_id and "-" in dep_id:
+#                         try:
+#                             existing_ids.append(int(dep_id.split("-")[1]))
+#                         except (IndexError, ValueError):
+#                             continue
+
+#                 next_dep_id = f"Dep-{max(existing_ids, default=0) + 1:03}"
+
+#                 for item in flow_data:
+#                     if item.get("filename") == file and item.get("Fix", {}).get("fix_id") == fix_id:
+#                         item["Deploy"] = {
+#                             "Dep_id": next_dep_id,
+#                             "status": "deployed",
+#                             "time": datetime.now().strftime("%I:%M:%S %p"),
+#                             "analysis": commit_hash
+#                         }
+
+#                 with flOW_LOG_PATH.open("w") as f:
+#                     json.dump(flow_data, f, indent=2)
+#                 yield "📦 process_flow.json updated with deployment info."
+#             else:
+#                 yield "⚠️ process_flow.json not found"
+#         except Exception as e:
+#             yield f"⚠️ Error updating process_flow.json: {e}"
+
+#         yield "✅ All logs updated successfully."
+
+#     except subprocess.CalledProcessError as e:
+#         error_msg = f"Command failed with exit code {e.returncode}"
+#         if e.stderr:
+#             error_msg += f": {e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr}"
+#         elif e.stdout:
+#             error_msg += f": {e.stdout.decode() if isinstance(e.stdout, bytes) else e.stdout}"
+        
+#         yield f"❌ GitHub push failed: {error_msg}"
+
+#         # Update fix_log with error
+#         try:
+#             for entry in fix_log:
+#                 if entry.get("err_id") == err_id and entry.get("file") == file:
+#                     entry["isPushed"] = False
+#                     entry["error_push"] = error_msg
+
+#             with FIX_LOG_PATH.open("w") as f: 
+#                 json.dump(fix_log, f, indent=2)
+#             yield "💾 fix_log.json updated with push error."
+#         except Exception as update_error:
+#             yield f"❌ Could not update fix_log.json: {update_error}"
+
+#     except Exception as e:
+#         yield f"❌ Unexpected error: {str(e)}"
 
 # ---------- FastAPI Setup ----------
 app = FastAPI()
