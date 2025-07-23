@@ -507,7 +507,7 @@ def startup_event():
 @api_router.get("/github/push/stream")
 def stream_push_to_github():
     def event_generator():
-        for log_line in push_to_github_stream():
+        for log_line in push_to_github():
             yield f"data: {log_line}\n\n"
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
