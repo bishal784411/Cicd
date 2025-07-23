@@ -171,7 +171,7 @@ def push_to_github_stream():
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
         yield "✍️ Committed changes."
 
-        subprocess.run(["git", "push", "-u", "origin", "master"], check=True)
+        subprocess.run(["git", "push", "-u", "origin", branch], check=True)
         yield "🚀 Pushed to GitHub."
 
         # ✅ Update fix_log.json as pushed
