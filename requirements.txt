@@ -7,4 +7,7 @@ cssutils
 fastapi
 uvicorn
 psutil
+email_validator
 cssutils
+python-jose
+passlib

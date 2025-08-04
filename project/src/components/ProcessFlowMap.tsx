@@ -47,51 +47,56 @@ export const ProcessFlowMap: React.FC = () => {
   // Dummy data for individual error flows
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const rawData = await getProcessFlowData();
+  const fetchData = async () => {
+    try {
+      const rawData = await getProcessFlowData();
 
-        const parsedFlows: ErrorFlow[] = rawData.map((item: any) => ({
-          id: item.id,
-          errorId: item.monitor?.error_id,
-          solutionId: item.Solution?.solution_id,
-          fixId: item.Fix?.fix_id,
-          deployId: item.Deploy?.Dep_id,
-          title: item.error_type || "Unknown Error",
-          description: item.monitor?.error || "No description",
-          icon: Container, // You can change based on `error_type` if needed
-          stages: {
-            monitor: {
-              status: 'detected',
-              timestamp: item.monitor?.time,
-              details: item.monitor?.error || ""
-            },
-            solution: {
-              status: item.Solution?.status || 'pending',
-              timestamp: item.Solution?.time,
-              details: item.Solution?.analysis || 'No solution yet.'
-            },
-            fix: {
-              status: item.Fix?.status || 'pending',
-              timestamp: item.Fix?.time,
-              details: item.Fix?.analysis || 'Not fixed yet.'
-            },
-            deploy: {
-              status: item.Deploy?.status || 'pending',
-              timestamp: item.Deploy?.time,
-              details: item.Deploy?.analysis || 'Not deployed yet.'
-            }
+      const parsedFlows: ErrorFlow[] = rawData.map((item: any) => ({
+        id: item.id,
+        errorId: item.monitor?.error_id,
+        solutionId: item.Solution?.solution_id,
+        fixId: item.Fix?.fix_id,
+        deployId: item.Deploy?.Dep_id,
+        title: item.error_type || "Unknown Error",
+        description: item.monitor?.error || "No description",
+        icon: Container,
+        stages: {
+          monitor: {
+            status: 'detected',
+            timestamp: item.monitor?.time,
+            details: item.monitor?.error || ""
+          },
+          solution: {
+            status: item.Solution?.status || 'pending',
+            timestamp: item.Solution?.time,
+            details: item.Solution?.analysis || 'No solution yet.'
+          },
+          fix: {
+            status: item.Fix?.status || 'pending',
+            timestamp: item.Fix?.time,
+            details: item.Fix?.analysis || 'Not fixed yet.'
+          },
+          deploy: {
+            status: item.Deploy?.status || 'pending',
+            timestamp: item.Deploy?.time,
+            details: item.Deploy?.analysis || 'Not deployed yet.'
           }
-        }));
+        }
+      }));
 
-        setErrorFlows(parsedFlows);
-      } catch (error) {
-        console.error("Failed to fetch process flow data:", error);
+      if (parsedFlows.length > 0) {
+        setErrorFlows([parsedFlows[parsedFlows.length - 1]]);
+      } else {
+        setErrorFlows([]);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch process flow data:", error);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
+
 
   const getStageStatus = (status: string) => {
     switch (status) {

@@ -1,104 +1,123 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Agent } from '../types/monitoring';
-import { dummyAgents } from '../data/dummyData';
+import { useEffect, useState, useCallback } from 'react';
 
-export const useAgents = () => {
-  const [agents, setAgents] = useState<Agent[]>([]);
+export interface SystemStats {
+  cpu_percent: number;
+  memory_percent: number;
+  disk_percent: number;
+}
+
+export interface AgentInfo {
+  name: string;
+  status: string;
+  last_heartbeat: string | null;
+  uptime: string | null;
+  total_detections: number;
+  health: string;
+  system: SystemStats;
+  solutions_provided?: number;
+  solutions_pending?: number;
+  fixes_applied?: number;
+  fixes_pending?: number;
+}
+
+export interface SummaryStats {
+  total_errors: number;
+  total_solutions: number;
+  total_fixes: number;
+  pending_solutions: number;
+  pending_fixes: number;
+  online_agents: number;
+  tasks_completed: number;
+  average_uptime: number | null;
+}
+
+export interface CombinedStats {
+  timestamp: string;
+  agents: {
+    monitor: AgentInfo;
+    solution: AgentInfo;
+    fix: AgentInfo;
+  };
+  summary: SummaryStats;
+}
+
+
+
+export const useAgent = () => {
+  const [data, setData] = useState<CombinedStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchAgents = useCallback(async () => {
-    try {
-      setError(null);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 400));
-      
-      // Add some randomness to CPU/Memory usage for realism
-      const updatedAgents = dummyAgents.map(agent => ({
-        ...agent,
-        cpu_usage: agent.status === 'online' || agent.status === 'busy' 
-          ? Math.max(0, agent.cpu_usage + Math.floor(Math.random() * 10) - 5)
-          : 0,
-        memory_usage: agent.status === 'online' || agent.status === 'busy'
-          ? Math.max(0, Math.min(100, agent.memory_usage + Math.floor(Math.random() * 6) - 3))
-          : 0,
-        last_heartbeat: agent.status === 'online' || agent.status === 'busy'
-          ? new Date().toISOString()
-          : agent.last_heartbeat
-      }));
-      
-      setAgents(updatedAgents);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch agents';
-      setError(errorMessage);
-      console.error('Agents API Error:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const restartAgent = useCallback(async (agentId: string) => {
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setAgents(prev => prev.map(agent => 
-        agent.id === agentId 
-          ? { 
-              ...agent, 
-              status: 'online' as any,
-              health: 'healthy' as any,
-              last_heartbeat: new Date().toISOString(),
-              uptime: Math.min(100, agent.uptime + 1)
-            }
-          : agent
-      ));
-      
-      return true;
-    } catch (err) {
-      console.error('Restart agent failed:', err);
-      return false;
-    }
-  }, []);
-
-  const stopAgent = useCallback(async (agentId: string) => {
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setAgents(prev => prev.map(agent => 
-        agent.id === agentId 
-          ? { 
-              ...agent, 
-              status: 'offline' as any,
-              cpu_usage: 0,
-              memory_usage: 0,
-              current_task: undefined,
-              queue_size: 0
-            }
-          : agent
-      ));
-      
-      return true;
-    } catch (err) {
-      console.error('Stop agent failed:', err);
-      return false;
-    }
-  }, []);
-
+  const [connected, setConnected] = useState(false);
+  const API_EVENT_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
-    fetchAgents();
-    const interval = setInterval(fetchAgents, 5000);
-    return () => clearInterval(interval);
-  }, [fetchAgents]);
+    const eventSource = new EventSource(`${API_EVENT_URL}/system/combined-stats`);
+
+    eventSource.onopen = () => {
+      setConnected(true);
+      setError(null);
+    };
+
+    eventSource.onmessage = (event) => {
+      try {
+        const parsed: CombinedStats = JSON.parse(event.data);
+
+        // Normalize missing fields
+        ['monitor', 'solution', 'fix'].forEach((agentKey) => {
+          const agent = parsed.agents[agentKey as keyof CombinedStats['agents']];
+          if (agent) {
+            agent.system = agent.system ?? {
+              cpu_percent: 0,
+              memory_percent: 0,
+              disk_percent: 0,
+            };
+            agent.health = agent.health ?? 'unknown';
+            agent.solutions_provided ??= 0;
+            agent.solutions_pending ??= 0;
+            agent.fixes_applied ??= 0;
+            agent.fixes_pending ??= 0;
+          }
+        });
+
+        parsed.summary.online_agents ??= 0;
+        parsed.summary.tasks_completed ??= 0;
+        parsed.summary.average_uptime ??= null;
+
+        setData(parsed);
+      } catch (err) {
+        console.error('Failed to parse SSE event data:', err);
+        setError('Failed to parse data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    eventSource.onerror = (err) => {
+      console.error('SSE connection error:', err);
+      setError('Connection lost');
+      setConnected(false);
+      eventSource.close();
+      setLoading(false);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
+  const refetch = useCallback(() => {
+    setData(null);
+    setError(null);
+    setLoading(true);
+  }, []);
 
   return {
-    agents,
+    data,
+    agents: data?.agents ?? null,
+    summary: data?.summary ?? null,
+    timestamp: data?.timestamp ?? null,
     loading,
     error,
-    refetch: fetchAgents,
-    restartAgent,
-    stopAgent
+    connected,
+    refetch,
   };
 };

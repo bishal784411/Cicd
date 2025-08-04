@@ -37,7 +37,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, errorCount = 0
       case 'fixing':
         return {
           icon: Wrench,
-          text: 'Auto-Fixing',
+          text: 'Fixed',
           className: 'bg-blue-500/20 text-blue-400 border-blue-500/30 animate-pulse'
         };
       case 'fixed':

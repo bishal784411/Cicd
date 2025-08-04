@@ -113,7 +113,7 @@ export const FixPage: React.FC = () => {
             : 'bg-gray-500/20 text-gray-400'
             }`}>
             <Activity className={`h-4 w-4 inline mr-2 ${isMonitoring ? 'animate-pulse' : ''}`} />
-            {isMonitoring ? 'MONITORING' : 'STOPPED'}
+            {isMonitoring ? 'Running Fix Agent' : 'Agent STOPPED'}
           </div>
         </div>
       </div>

@@ -20,6 +20,17 @@ import { useTerminal } from '../components/TerminalContext';
 import { GlobalTerminal } from '../components/GlobalTerminal';
 
 
+interface Metrics {
+  cpu_usage: number;
+  memory_usage: number;
+  disk_usage: number;
+  active_pipelines: number;
+  docker_containers_running: number;
+  successful_deployments_today: number;
+  failed_builds_today: number;
+}
+
+
 export const SolutionsPage: React.FC = () => {
   const [isMonitoring, setIsMonitoring] = useState(false);
   const {
@@ -39,6 +50,53 @@ export const SolutionsPage: React.FC = () => {
     error,
     refetch,
   } = useSolutions();
+
+  const [metrics, setMetrics] = useState<Metrics>({
+      cpu_usage: 0,
+      memory_usage: 0,
+      disk_usage: 0,
+      active_pipelines: 8,
+      docker_containers_running: 24,
+      successful_deployments_today: 12,
+      failed_builds_today: 3,
+    });
+
+
+    useEffect(() => {
+    const eventSource = new EventSource(`${import.meta.env.VITE_API_BASE_URL}/system/usages`);
+
+    eventSource.onmessage = (event) => {
+      try {
+        let raw = event.data.trim();
+        if (raw.startsWith("data: ")) raw = raw.slice(6);
+        const fixed = raw.replace(/'/g, '"');
+        const data = JSON.parse(fixed);
+
+        setMetrics((prev) => ({
+          ...prev,
+          cpu_usage: data.cpu_percent,
+          memory_usage: data.memory_percent,
+          disk_usage: data.disk_percent,
+          active_pipelines: prev.active_pipelines,
+          docker_containers_running: prev.docker_containers_running,
+          successful_deployments_today: prev.successful_deployments_today,
+          failed_builds_today: prev.failed_builds_today,
+        }));
+
+      } catch (err) {
+        console.error("Error parsing SSE data:", err, event.data);
+      }
+    };
+
+    eventSource.onerror = (err) => {
+      console.error("SSE connection error:", err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   const handleStartMonitor = async () => {
     try {
@@ -218,7 +276,7 @@ export const SolutionsPage: React.FC = () => {
       ) : (
         <>
           <SystemHealth
-            metrics={dataToRender.metrics}
+            metrics={metrics}
             systemHealth={dataToRender.system_health}
             agentStatus={dataToRender.agent_status}
             pipelineStatus={dataToRender.pipeline_status}

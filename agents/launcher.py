@@ -8,17 +8,33 @@ import time, shlex
 import threading
 import requests, re
 from typing import Generator
-
 import uvicorn
 import psutil
-from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks, Query, Request
+from fastapi import FastAPI, HTTPException, APIRouter, BackgroundTasks, Query, Request, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse, StreamingResponse, JSONResponse
 from solution_agent import SolutionAgent
 from monitor_agent import MonitorAgent
 from fix_agent import AIFixAgent
-from typing import Optional
+from typing import Optional, Any, Dict
 import asyncio
+from fastapi.security import OAuth2PasswordRequestForm
+from auth.auth_schema import LoginRequest, LoginResponse
+from auth.auth_handler import verify_password, hash_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from datetime import timedelta
+from auth.auth_schema import LoginRequest, LoginResponse, RegisterRequest, UserResponse
+from auth.auth_handler import (
+    verify_password, 
+    hash_password, 
+    create_access_token, 
+    ACCESS_TOKEN_EXPIRE_MINUTES
+)
+from auth.auth_dependency import get_current_user, get_current_active_user
+
+
+
+
+
 # Log file paths
 ERROR_LOG_PATH = Path("error_log.json")
 SOLUTION_LOG_PATH = Path("solutions.json")
@@ -606,7 +622,14 @@ def push_to_github_stream():
 # ---------- FastAPI Setup ----------
 app = FastAPI()
 
-
+users_db: Dict[str, Dict[str, Any]] = {
+    "test@example.com": {
+        "email": "test@example.com",
+        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",  # "secret"
+        "full_name": "Test User",
+        "is_active": True
+    }
+}
 
 # You can add additional URLs to this list, for example, the frontend's production domain, or other frontends.
 allowed_origins = [
@@ -1190,6 +1213,233 @@ def list_agents():
 
     return JSONResponse(content=response)
 
+
+@api_router.get("/system/combined-stats")
+async def combined_system_and_agent_stats():
+    """Stream combined system usage stats and agent information in a single event"""
+    
+    async def event_generator():
+        while True:
+            try:
+                now = datetime.now()
+                timestamp = now.isoformat()
+                
+                # Get system stats
+                cpu = psutil.cpu_percent(interval=None)
+                memory = psutil.virtual_memory().percent
+                disk = psutil.disk_usage('/').percent
+                
+                # Load logs
+                def load_json(path):
+                    try:
+                        return json.loads(path.read_text(encoding="utf-8"))
+                    except Exception:
+                        return []
+                
+                error_log = load_json(ERROR_LOG_PATH)
+                solution_log = load_json(SOLUTION_LOG_PATH)
+                fix_log = load_json(FIX_LOG_PATH)
+                
+                # Calculate stats
+                monitor_detections = len(error_log)
+                solution_detections = len(solution_log)
+                fix_detections = len(fix_log)
+                
+                # Solution stats
+                solutions_provided = len([s for s in solution_log if s.get("status") in ["Analyzed", "Provided"]])
+                solutions_pending = solution_detections - solutions_provided
+                
+                # Fix stats
+                fixes_applied = len([f for f in fix_log if f.get("status") == "applied"])
+                fixes_pending = fix_detections - fixes_applied
+                
+                # Variables to track online agents and uptimes
+                online_agents = 0
+                uptimes_in_seconds = []
+                
+                def agent_info(name):
+                    nonlocal online_agents, uptimes_in_seconds
+                    
+                    proc = launcher.processes.get(name)
+                    info = {
+                        "name": name,
+                        "status": "stopped",
+                        "last_heartbeat": agent_heartbeat.get(name),
+                        "uptime": None,
+                        "total_detections": monitor_detections if name == "monitor" else 0,
+                        "health": "healthy",
+                        "system": {
+                            "cpu_percent": cpu,
+                            "memory_percent": memory,
+                            "disk_percent": disk
+                        }
+                    }
+                    
+                    if proc and proc.poll() is None:
+                        try:
+                            p = psutil.Process(proc.pid)
+                            uptime = now - datetime.fromtimestamp(p.create_time())
+                            info["status"] = "running"
+                            info["last_heartbeat"] = now.isoformat()
+                            info["uptime"] = str(uptime).split(".")[0]
+                            agent_heartbeat[name] = info["last_heartbeat"]
+                            
+                            # Count online agents and track uptimes
+                            online_agents += 1
+                            uptimes_in_seconds.append(uptime.total_seconds())
+                            
+                        except Exception:
+                            pass
+                    
+                    return info
+                
+                # Build agent data
+                agents_data = {
+                    "monitor": agent_info("monitor"),
+                    "solution": {
+                        **agent_info("solution"),
+                        "total_detections": solution_detections,
+                        "solutions_provided": solutions_provided,
+                        "solutions_pending": solutions_pending
+                    },
+                    "fix": {
+                        **agent_info("fix"),
+                        "total_detections": fix_detections,
+                        "fixes_applied": fixes_applied,
+                        "fixes_pending": fixes_pending
+                    }
+                }
+                
+                # Calculate average uptime
+                average_uptime = None
+                if uptimes_in_seconds:
+                    avg_seconds = sum(uptimes_in_seconds) / len(uptimes_in_seconds)
+                    hours = int(avg_seconds // 3600)
+                    minutes = int((avg_seconds % 3600) // 60)
+                    seconds = int(avg_seconds % 60)
+                    average_uptime = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+                
+                # Calculate tasks completed
+                tasks_completed = solutions_provided + fixes_applied
+                
+                # Build combined data with system stats included
+                combined_data = {
+                    "timestamp": timestamp,
+                    "agents": agents_data,
+                    "summary": {
+                        "total_errors": monitor_detections,
+                        "total_solutions": solutions_provided,
+                        "total_fixes": fixes_applied,
+                        "pending_solutions": solutions_pending,
+                        "pending_fixes": fixes_pending,
+                        "online_agents": online_agents,
+                        "tasks_completed": tasks_completed,
+                        "average_uptime": average_uptime
+                    }
+                }
+                
+                # Send as a single event
+                yield f"data: {json.dumps(combined_data)}\n\n"
+                
+                await asyncio.sleep(1)
+                
+            except Exception as e:
+                # Send error event
+                error_data = {
+                    "timestamp": datetime.now().isoformat(),
+                    "error": str(e),
+                    "agents": {},
+                    "summary": {
+                        "total_errors": 0,
+                        "total_solutions": 0,
+                        "total_fixes": 0,
+                        "pending_solutions": 0,
+                        "pending_fixes": 0,
+                        "online_agents": 0,
+                        "tasks_completed": 0,
+                        "average_uptime": None
+                    }
+                }
+                yield f"data: {json.dumps(error_data)}\n\n"
+                await asyncio.sleep(1)
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
+    )
+    
+
+@api_router.post("/auth/login", response_model=LoginResponse)
+def login_user(login_data: LoginRequest, response: Response):
+    """Login user and return JWT token"""
+    # Get user from database
+    user = users_db.get(login_data.email)
+    if not user or not verify_password(login_data.password, user["hashed_password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Check if user is active
+    if not user.get("is_active", True):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Inactive user"
+        )
+    
+    # Create access token
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": login_data.email},
+        expires_delta=access_token_expires
+    )
+    
+    # Set HTTP-only cookie for better security (optional)
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,  # Convert to seconds
+        httponly=True,
+        secure=False,  # Set to True in production with HTTPS
+        samesite="lax"
+    )
+    
+    return LoginResponse(access_token=access_token, token_type="bearer")
+
+
+
+
+@api_router.get("/auth/verify")
+def verify_token(current_user: str = Depends(get_current_active_user)):
+    """Verify if the current token is valid"""
+    return {"valid": True, "email": current_user}
+
+@api_router.post("/auth/logout")
+def logout_user(response: Response):
+    """Logout user (mainly for clearing cookies)"""
+    response.delete_cookie("access_token")
+    return {"message": "Successfully logged out"}
+
+@api_router.get("/auth/me")
+def get_current_user_info(current_user: str = Depends(get_current_active_user)):
+    """Get current user information"""
+    user = users_db.get(current_user)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {
+        "email": user["email"],
+        "full_name": user["full_name"],
+        "is_active": user["is_active"]
+    }
+    
+    
 # ---------- Include Router ----------
 app.include_router(api_router, prefix="/api")
 
